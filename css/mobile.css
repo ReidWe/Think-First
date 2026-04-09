@@ -1,0 +1,112 @@
+/* ============================================
+   mobile.css - All responsive breakpoints
+   ============================================ */
+
+@media (max-width: 768px) {
+  html, body {
+    overflow-x: hidden;
+    width: 100%;
+    position: relative;
+  }
+
+  /* Nav */
+  nav { padding: 12px 16px; width: 100%; }
+  .logo { font-size: 1rem; }
+
+  .hamburger { display: flex; }
+
+  .nav-links {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(6, 14, 26, 0.97);
+    backdrop-filter: blur(20px);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    z-index: 150;
+  }
+
+  .nav-links.mobile-open { display: flex; }
+  .nav-links a { font-size: 1.2rem; opacity: 0.8; }
+
+  /* Sections */
+  section { padding: 80px 16px; width: 100%; overflow-x: hidden; }
+  .hero { min-height: 100vh; padding: 100px 16px; }
+
+  /* Typography */
+  h1 { font-size: clamp(1.8rem, 8vw, 3rem); padding: 0 10px; }
+  .hero-sub { font-size: 1rem; padding: 0 10px; }
+  .feature-title { font-size: clamp(1.5rem, 5vw, 2rem); padding: 0 10px; }
+  .feature-desc, .feature-desc-wide { font-size: 0.95rem; padding: 0 10px; }
+
+  /* Stats */
+  .stats-grid { grid-template-columns: 1fr; gap: 30px; padding: 0 10px; }
+  .stat-number { font-size: 3rem; }
+  .stat-label { font-size: 0.9rem; padding: 0 10px; }
+
+  /* Data Cards */
+  .data-cards { grid-template-columns: 1fr; padding: 0 10px; }
+  .data-card { padding: 30px 20px; }
+  .data-card-big-number { font-size: 2.5rem; }
+
+  /* Bars */
+  .bar-label, .heatmap-label { width: 100px; font-size: 0.75rem; }
+
+  /* Problem */
+  .problem-grid { grid-template-columns: 1fr; padding: 0 10px; }
+
+  /* Solution */
+  .solution-pillars { grid-template-columns: 1fr; padding: 0 10px; }
+
+  /* Principles */
+  .cards-grid { grid-template-columns: 1fr; padding: 0 10px; }
+  .card { padding: 30px 20px; }
+  .card h3 { font-size: 1.4rem; }
+  .card p { font-size: 0.95rem; }
+
+  /* Chat Demo */
+  .demo-section { padding: 60px 16px; }
+  .demo-container { width: 100%; padding: 0; }
+  .prompt-suggestions { flex-direction: column; padding: 0 10px; }
+  .prompt-chip { width: 100%; text-align: center; }
+  .chat-messages { height: 250px; padding: 16px; }
+  .chat-input-area { padding: 12px; }
+  .chat-input-area input { min-width: 0; padding: 12px 16px; }
+
+  /* CTA */
+  .cta-section { padding: 60px 16px; }
+  .cta-title { font-size: 1.5rem; padding: 0 10px; }
+  .btn { padding: 14px 24px; font-size: 0.95rem; margin: 8px 4px; }
+
+  /* Built With AI */
+  .made-with-ai { padding: 60px 16px; }
+  .ai-badge { font-size: 2.5rem; }
+  .ai-story { grid-template-columns: 1fr; padding: 0 10px; }
+  .ai-story-block { padding: 25px 20px; }
+  .ai-story-block h3 { font-size: 1.2rem; }
+  .ai-story-block p { font-size: 0.9rem; }
+  .ai-details { gap: 30px; }
+  .ai-detail-value { font-size: 2.5rem; }
+  .ai-note { font-size: 1rem; }
+
+  /* Badge */
+  .badge-canvas-wrap { height: 650px; }
+
+  /* References */
+  .references-section { padding: 60px 16px; }
+  .references-container { padding: 0; }
+  .apa-references { padding: 20px 16px; }
+  .apa-entry { padding-left: 20px; text-indent: -20px; font-size: 0.85rem; line-height: 1.6; }
+
+  /* Footer */
+  footer { padding: 30px 16px; }
+}
+
+@media (max-width: 380px) {
+  h1 { font-size: 1.6rem; }
+  .feature-title { font-size: 1.3rem; }
+  .stat-number { font-size: 2.5rem; }
+  .ai-detail-value { font-size: 2rem; }
+}
