@@ -4,7 +4,21 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Open AI Policy | Syracuse University</title>
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- SEO & Social Sharing (Optimization 1: now useful outside iframe) -->
+  <meta name="description" content="A research-backed argument for Syracuse University to adopt the Think First framework, an open AI policy that structures how students engage with AI tools in academic writing.">
+  <meta name="author" content="Corso, Webster, & Ras - Syracuse University">
+  <meta property="og:title" content="Open AI Policy | Syracuse University">
+  <meta property="og:description" content="Demand the blank page. A call for structured AI guidance in higher education.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Open AI Policy | Syracuse University">
+  <meta name="twitter:description" content="Demand the blank page. A research-backed argument for the Think First framework.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📄</text></svg>">
+
+  <!-- Font loading optimization (Optimization 5: swap + only load what's needed) -->
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     
@@ -21,6 +35,16 @@
       -webkit-font-smoothing: antialiased;
       width: 100%;
       max-width: 100vw;
+    }
+
+    /* Optimization 3: Respect reduced motion preferences */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
     }
     
     nav {
@@ -79,6 +103,39 @@
     
     .nav-links a.active::after {
       transform: scaleX(1);
+    }
+
+    /* Optimization 8: Mobile hamburger menu */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+      z-index: 200;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: #f5f5f7;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+
+    .hamburger.open span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    .hamburger.open span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger.open span:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
     }
     
     section {
@@ -433,7 +490,6 @@
     .bar-fill.clarity-medium { background: linear-gradient(90deg, #d97706, #fbbf24); }
     .bar-fill.clarity-low { background: linear-gradient(90deg, #dc2626, #fb7185); }
 
-    /* Legacy heatmap classes kept for compatibility */
     .clarity-high { background: linear-gradient(90deg, #059669, #34d399); }
     .clarity-medium { background: linear-gradient(90deg, #d97706, #fbbf24); }
     .clarity-low { background: linear-gradient(90deg, #dc2626, #fb7185); }
@@ -1002,7 +1058,37 @@
         padding: 12px 16px;
         width: 100%;
       }
-      .nav-links { display: none; }
+
+      /* Optimization 8: Show hamburger, hide nav by default on mobile */
+      .hamburger {
+        display: flex;
+      }
+
+      .nav-links {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(6, 14, 26, 0.97);
+        backdrop-filter: blur(20px);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 24px;
+        z-index: 150;
+      }
+
+      .nav-links.mobile-open {
+        display: flex;
+      }
+
+      .nav-links a {
+        font-size: 1.2rem;
+        opacity: 0.8;
+      }
+
       .logo { font-size: 1rem; }
       
       section { 
@@ -1280,7 +1366,13 @@
 <body>
   <nav>
     <div class="logo">PearAI</div>
-    <ul class="nav-links">
+    <!-- Optimization 8: Hamburger button for mobile -->
+    <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
       <li><a href="#vision">Vision</a></li>
       <li><a href="#impact">Impact</a></li>
       <li><a href="#research">Research</a></li>
@@ -1690,76 +1782,102 @@
   </footer>
 
   <script>
-    // Active nav highlighting on scroll
+    // =========================================================
+    // Optimization 8: Mobile hamburger menu toggle
+    // =========================================================
+    const hamburger = document.getElementById('hamburger');
+    const navLinksEl = document.getElementById('navLinks');
+
+    hamburger.addEventListener('click', () => {
+      const isOpen = navLinksEl.classList.toggle('mobile-open');
+      hamburger.classList.toggle('open');
+      hamburger.setAttribute('aria-expanded', isOpen);
+    });
+
+    // =========================================================
+    // Optimization 2: IntersectionObserver replaces scroll listeners
+    // =========================================================
     const sections = document.querySelectorAll('section[id]');
     const navLinks = document.querySelectorAll('.nav-links a');
-    
-    function setActiveNav() {
-      let current = '';
-      const scrollY = window.scrollY;
-      
-      sections.forEach(section => {
-        const top = section.offsetTop - 150;
-        const bottom = top + section.offsetHeight;
-        if (scrollY >= top && scrollY < bottom) {
-          current = section.getAttribute('id');
+
+    // Active nav highlighting via IntersectionObserver
+    const navObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.getAttribute('id');
+          navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === `#${id}`) {
+              link.classList.add('active');
+            }
+          });
         }
       });
-      
-      navLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href') === `#${current}`) {
-          link.classList.add('active');
+    }, {
+      rootMargin: '-20% 0px -70% 0px',
+      threshold: 0
+    });
+
+    sections.forEach(section => navObserver.observe(section));
+
+    // Scroll reveal via IntersectionObserver
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target); // Only reveal once
         }
       });
-    }
-    
-    window.addEventListener('scroll', setActiveNav);
-    window.addEventListener('load', setActiveNav);
-    
-    // Smooth scroll for nav links
+    }, {
+      threshold: 0.15
+    });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    // Bar fill animation via IntersectionObserver
+    const barObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.width = entry.target.getAttribute('data-width') + '%';
+          barObserver.unobserve(entry.target); // Only animate once
+        }
+      });
+    }, {
+      threshold: 0.1
+    });
+
+    document.querySelectorAll('.bar-fill').forEach(bar => barObserver.observe(bar));
+
+    // =========================================================
+    // Optimization 4: Simplified nav -- let CSS smooth scroll work,
+    // JS only needed for closing mobile menu on link click
+    // =========================================================
     navLinks.forEach(link => {
-      link.addEventListener('click', e => {
-        e.preventDefault();
-        const target = document.querySelector(link.getAttribute('href'));
-        if (target) {
-          target.scrollIntoView({ behavior: 'smooth' });
+      link.addEventListener('click', (e) => {
+        // Close mobile menu if open
+        if (navLinksEl.classList.contains('mobile-open')) {
+          navLinksEl.classList.remove('mobile-open');
+          hamburger.classList.remove('open');
+          hamburger.setAttribute('aria-expanded', 'false');
         }
       });
     });
 
-    // Scroll reveal animations
-    const revealElements = document.querySelectorAll('.reveal');
-    const barFills = document.querySelectorAll('.bar-fill');
-
-    function checkReveal() {
-      const windowHeight = window.innerHeight;
-      
-      revealElements.forEach(el => {
-        const top = el.getBoundingClientRect().top;
-        if (top < windowHeight - 100) {
-          el.classList.add('visible');
-        }
-      });
-
-      barFills.forEach(bar => {
-        const top = bar.getBoundingClientRect().top;
-        if (top < windowHeight - 50) {
-          bar.style.width = bar.getAttribute('data-width') + '%';
-        }
-      });
-    }
-
-    window.addEventListener('scroll', checkReveal);
-    window.addEventListener('load', checkReveal);
-
-    // Chat logic
+    // =========================================================
+    // Chat logic (Optimization 6: structured for future API swap)
+    // =========================================================
     const responses = {
       "explain what open ai policy means": "Open AI policy means moving from blanket bans and secrecy to structured, transparent guidance. Rather than prohibiting AI tools and hoping students comply, it argues for teaching students when and how to use AI. The 'Think First' framework we propose requires students to do their initial brainstorming without AI, then bring it in as a late-stage tool for expanding and refining their own ideas. As de Araujo and Schneider (2025) argue, AI should be subordinate to the student, not the other way around.",
       "why does ai transparency matter?": "When students document how they used AI through collaboration statements, instructors can evaluate the process rather than policing the product. This is more effective than unreliable AI detection software and shifts the focus from catching cheaters to fostering genuine academic integrity. Our survey found that 47% of Syracuse students introduce AI during prewriting or drafting. A transparency protocol does not ban that use; it makes it visible and accountable, so students learn to reflect on their own cognitive process.",
       "what did your survey find?": "We surveyed 15 Syracuse students across 8 schools. Key findings: average confidence in original ideation is 8.3 out of 10, but the two students who rated their confidence at 6 out of 10 both use AI 'always' or 'often,' while those who rarely use AI scored 9 and 10. Additionally, 47% introduce AI during prewriting or drafting, exactly when independent thinking matters most. AI policy clarity varied wildly: Architecture scored 10 out of 10, while Newhouse scored only 6. Even within Engineering and CS, scores ranged from 5 to 10. Every student reported using AI at some frequency.",
       "how can i get involved in ai policy?": "Start at Syracuse: 1) Talk to your professors about implementing a 'Think First' protocol in their courses. 2) Email your dean and ask why AI policy differs across schools. 3) Share this page with classmates to start a conversation. 4) Advocate for a unified AI-Assisted Ideation Protocol through student government. 5) Check Syracuse's current AI guidelines at its.syr.edu and provide feedback. The Think First framework costs nothing to implement and fits into existing WRT 105 and WRT 205 curriculum."
     };
+
+    // Helper: get a response (swap this function for a real API call later)
+    function getResponse(msg) {
+      const key = msg.toLowerCase();
+      return responses[key] || "That's a great question! In a live version, this would connect to an AI service to give you a real answer about open AI policy.";
+    }
     
     function setPrompt(btn) {
       const input = document.getElementById('userInput');
@@ -1783,23 +1901,35 @@
       setTimeout(() => {
         const typingIndicator = document.getElementById('typing');
         if (typingIndicator) typingIndicator.remove();
-        const key = msg.toLowerCase();
-        const reply = responses[key] || "That's a great question! In a live version, this would connect to an AI service to give you a real answer about open AI policy.";
+        const reply = getResponse(msg);
         chat.innerHTML += `<div class="message assistant"><div class="message-bubble">${reply}</div></div>`;
         chat.scrollTop = chat.scrollHeight;
       }, 1500);
     }
-    // --- SU ID Badge Physics ---
+
+    // =========================================================
+    // SU ID Badge Physics (Optimization 7: devicePixelRatio support)
+    // =========================================================
     (function() {
       const badgeCanvas = document.getElementById('badgeCanvas');
       if (!badgeCanvas) return;
       const bCtx2 = badgeCanvas.getContext('2d');
       const wrap = badgeCanvas.parentElement;
 
+      // Optimization 7: Scale canvas for high-DPI / Retina displays
+      const dpr = window.devicePixelRatio || 1;
+
       let bW, bH;
       function badgeResize() {
-        bW = badgeCanvas.width = wrap.clientWidth;
-        bH = badgeCanvas.height = wrap.clientHeight + 400;
+        const cssW = wrap.clientWidth;
+        const cssH = wrap.clientHeight + 400;
+        badgeCanvas.width = cssW * dpr;
+        badgeCanvas.height = cssH * dpr;
+        badgeCanvas.style.width = cssW + 'px';
+        badgeCanvas.style.height = cssH + 'px';
+        bCtx2.setTransform(dpr, 0, 0, dpr, 0, 0);
+        bW = cssW;
+        bH = cssH;
         badgeAnchor.x = bW / 2;
         badgeAnchor.y = 260;
       }
@@ -1822,14 +1952,15 @@
       let bMouseX = -1000, bMouseY = -1000;
       let bSmoothAngle = 0;
 
-      // Offscreen badge texture
+      // Offscreen badge texture (Optimization 7: draw at higher res)
       const texCanvas = document.createElement('canvas');
       const tCtx = texCanvas.getContext('2d');
-      texCanvas.width = BBADGE_W * 2;
-      texCanvas.height = BBADGE_H * 2;
+      const texScale = Math.max(2, dpr);
+      texCanvas.width = BBADGE_W * texScale;
+      texCanvas.height = BBADGE_H * texScale;
 
       function drawBadgeTex() {
-        const s = 2;
+        const s = texScale;
         const w = BBADGE_W * s, h = BBADGE_H * s, r = 16 * s;
         tCtx.clearRect(0, 0, w, h);
         tCtx.save();
@@ -1859,7 +1990,6 @@
       drawBadgeTex();
 
       badgeResize();
-      // Initialize points after resize sets anchor
       for(let i=0;i<=BROPE_SEGMENTS;i++){bPoints[i].x=badgeAnchor.x; bPoints[i].oldX=badgeAnchor.x; bPoints[i].y=badgeAnchor.y+i*BROPE_LENGTH; bPoints[i].oldY=badgeAnchor.y+i*BROPE_LENGTH;}
       window.addEventListener('resize', badgeResize);
 
@@ -1890,12 +2020,10 @@
 
       function bRender() {
         bCtx2.clearRect(0,0,bW,bH);
-        // Clip
         bCtx2.save();
         bCtx2.fillStyle='#aaa'; bCtx2.beginPath(); bCtx2.roundRect(badgeAnchor.x-8,badgeAnchor.y-10,16,24,4); bCtx2.fill();
         bCtx2.fillStyle='#888'; bCtx2.beginPath(); bCtx2.roundRect(badgeAnchor.x-5,badgeAnchor.y-6,10,16,2); bCtx2.fill();
         bCtx2.restore();
-        // Lanyard
         bCtx2.save(); bCtx2.strokeStyle='#F47721'; bCtx2.lineWidth=5; bCtx2.lineCap='round'; bCtx2.lineJoin='round';
         bCtx2.beginPath(); bCtx2.moveTo(bPoints[0].x,bPoints[0].y);
         for(let i=1;i<bPoints.length-1;i++){const xc=(bPoints[i].x+bPoints[i+1].x)/2,yc=(bPoints[i].y+bPoints[i+1].y)/2; bCtx2.quadraticCurveTo(bPoints[i].x,bPoints[i].y,xc,yc);}
@@ -1903,7 +2031,6 @@
         bCtx2.strokeStyle='#003366'; bCtx2.lineWidth=2; bCtx2.beginPath(); bCtx2.moveTo(bPoints[0].x,bPoints[0].y);
         for(let i=1;i<bPoints.length-1;i++){const xc=(bPoints[i].x+bPoints[i+1].x)/2,yc=(bPoints[i].y+bPoints[i+1].y)/2; bCtx2.quadraticCurveTo(bPoints[i].x,bPoints[i].y,xc,yc);}
         bCtx2.lineTo(bLast.x,bLast.y); bCtx2.stroke(); bCtx2.restore();
-        // Badge
         const tip=bPoints[bPoints.length-1];
         let avgDx=0,avgDy=0; const sc=Math.min(5,bPoints.length-1);
         for(let s2=0;s2<sc;s2++){const idx=bPoints.length-1-s2,idxP=idx-1; if(idxP<0)break; const wt=(sc-s2)/sc; avgDx+=(bPoints[idx].x-bPoints[idxP].x)*wt; avgDy+=(bPoints[idx].y-bPoints[idxP].y)*wt;}
