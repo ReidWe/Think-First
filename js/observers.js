@@ -3,6 +3,10 @@
    nav highlighting, scroll reveals, bar fills
    ============================================ */
 
+// Signal to CSS that JS is running, enabling reveal animations.
+// Without this class, .reveal elements stay visible (safe fallback).
+document.documentElement.classList.add('js-loaded');
+
 const sections = document.querySelectorAll('section[id]');
 const navLinks = document.querySelectorAll('.nav-links a');
 
