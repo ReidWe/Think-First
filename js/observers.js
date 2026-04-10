@@ -8,7 +8,7 @@
 document.documentElement.classList.add('js-loaded');
 
 const sections = document.querySelectorAll('section[id]');
-const navLinks = document.querySelectorAll('.nav-links a');
+// navLinks is already declared in nav.js (loaded before this file)
 
 // ---- Active nav highlighting ----
 const navObserver = new IntersectionObserver((entries) => {
