@@ -38,9 +38,11 @@ const revealObserver = new IntersectionObserver((entries) => {
     if (entry.isIntersecting) {
       entry.target.classList.add('visible');
 
-      // Also trigger any bar-fills nested inside this reveal container
-      entry.target.querySelectorAll('.bar-fill').forEach(bar => {
-        bar.style.width = bar.getAttribute('data-width') + '%';
+      // Stagger bar-fills one by one inside this reveal container
+      entry.target.querySelectorAll('.bar-fill').forEach((bar, i) => {
+        setTimeout(() => {
+          bar.style.width = bar.getAttribute('data-width') + '%';
+        }, i * 200);
       });
 
       revealObserver.unobserve(entry.target);
