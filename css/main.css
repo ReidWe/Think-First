@@ -273,13 +273,16 @@ h1 {
 }
 
 /* ---- Scroll reveal ---- */
-.reveal {
+/* Content is visible by default. Only hidden when JS has loaded
+   and added the .js-loaded class to <html>. This prevents content
+   from being permanently invisible if JS fails or loads late. */
+.js-loaded .reveal {
   opacity: 0;
   transform: translateY(30px);
   transition: opacity 0.8s ease, transform 0.8s ease;
 }
 
-.reveal.visible {
+.js-loaded .reveal.visible {
   opacity: 1;
   transform: translateY(0);
 }
