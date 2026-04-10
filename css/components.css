@@ -683,3 +683,169 @@
 }
 
 .apa-entry a:hover { color: #c084fc; }
+
+/* ============================================
+   Scroll Stack - dark theme for research section
+   ============================================ */
+.sstack-section {
+  --ss-card-height: 75vh;
+  --ss-card-height-mobile: 70vh;
+  --ss-card-max-width: 760px;
+  --ss-card-radius: 20px;
+  --ss-card-gap: 2rem;
+  --ss-sticky-top: 3vh;
+
+  position: relative;
+  width: 100%;
+  padding: 0;
+  margin: 40px 0 0;
+  background: transparent;
+}
+
+.sstack-track {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sstack-card {
+  position: sticky;
+  top: var(--ss-sticky-top);
+  width: calc(100% - 2rem);
+  max-width: var(--ss-card-max-width);
+  min-height: var(--ss-card-height);
+  margin-bottom: var(--ss-card-gap);
+  border-radius: var(--ss-card-radius);
+  padding: clamp(2rem, 5vw, 3.5rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  will-change: transform, filter, opacity;
+  transform-origin: center top;
+
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.2),
+    0 12px 48px rgba(0, 0, 0, 0.3);
+
+  transition: box-shadow 0.3s ease;
+}
+
+/* Dark card surface colors - progressively lighter */
+.sstack-card:nth-child(1) { background: rgba(13, 31, 60, 0.95); border: 1px solid rgba(109, 200, 242, 0.08); z-index: 1; }
+.sstack-card:nth-child(2) { background: rgba(16, 36, 68, 0.95); border: 1px solid rgba(109, 200, 242, 0.10); z-index: 2; }
+.sstack-card:nth-child(3) { background: rgba(19, 41, 76, 0.95); border: 1px solid rgba(109, 200, 242, 0.12); z-index: 3; }
+.sstack-card:nth-child(4) { background: rgba(22, 46, 84, 0.95); border: 1px solid rgba(109, 200, 242, 0.14); z-index: 4; }
+.sstack-card:nth-child(5) { background: rgba(25, 51, 92, 0.95); border: 1px solid rgba(109, 200, 242, 0.16); z-index: 5; }
+.sstack-card:nth-child(6) { background: rgba(28, 56, 100, 0.95); border: 1px solid rgba(109, 200, 242, 0.18); z-index: 6; }
+
+/* Card typography */
+.sstack-card__number {
+  font-size: clamp(3rem, 9vw, 5rem);
+  font-weight: 700;
+  line-height: 1;
+  background: linear-gradient(135deg, #fff, #6dc8f2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.25rem;
+  letter-spacing: -0.03em;
+  user-select: none;
+}
+
+.sstack-card__title {
+  font-size: clamp(1.4rem, 4vw, 2rem);
+  font-weight: 600;
+  line-height: 1.2;
+  color: #f5f5f7;
+  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
+}
+
+.sstack-card__rule {
+  width: 40px;
+  height: 3px;
+  background: linear-gradient(90deg, #6dc8f2, #c084fc);
+  border: none;
+  border-radius: 2px;
+  margin-bottom: 1.25rem;
+}
+
+.sstack-card__body {
+  font-size: clamp(0.95rem, 2vw, 1.1rem);
+  line-height: 1.8;
+  color: #a0a0a5;
+  max-width: 560px;
+}
+
+.sstack-card__body strong {
+  font-weight: 600;
+  color: #f5f5f7;
+}
+
+.sstack-card__source {
+  display: inline-block;
+  margin-top: 18px;
+  font-size: 0.8rem;
+  color: #6dc8f2;
+  opacity: 0.6;
+}
+
+/* Corner accents */
+.sstack-card__corner {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-color: #6dc8f2;
+  border-style: solid;
+  opacity: 0.15;
+  pointer-events: none;
+}
+
+.sstack-card__corner--tl { top: 1rem; left: 1rem; border-width: 2px 0 0 2px; }
+.sstack-card__corner--br { bottom: 1rem; right: 1rem; border-width: 0 2px 2px 0; }
+
+/* Bar charts inside scroll-stack cards */
+.sstack-bars {
+  width: 100%;
+  max-width: 560px;
+}
+
+.sstack-bars .bar-row {
+  margin-bottom: 12px;
+}
+
+.sstack-bars .bar-label {
+  width: 160px;
+  color: #a0a0a5;
+}
+
+.sstack-bars .bar-track {
+  background: rgba(109, 200, 242, 0.08);
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .sstack-card {
+    min-height: var(--ss-card-height-mobile);
+    padding: 1.75rem 1.5rem;
+    width: calc(100% - 1.25rem);
+    border-radius: 14px;
+  }
+  .sstack-section {
+    --ss-card-gap: 1.25rem;
+    --ss-sticky-top: 2vh;
+  }
+  .sstack-bars .bar-label {
+    width: 90px;
+    font-size: 0.7rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sstack-card {
+    will-change: auto;
+  }
+}
