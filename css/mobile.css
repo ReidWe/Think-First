@@ -19,17 +19,74 @@
     display: none;
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(6, 14, 26, 0.97);
-    backdrop-filter: blur(20px);
+    background: rgba(6, 14, 26, 0.98);
+    backdrop-filter: saturate(180%) blur(30px);
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 24px;
+    gap: 0;
     z-index: 150;
+    padding: 80px 40px 60px;
   }
 
-  .nav-links.mobile-open { display: flex; }
-  .nav-links a { font-size: 1.2rem; opacity: 0.8; }
+  .nav-links.mobile-open {
+    display: flex;
+  }
+
+  .nav-links li {
+    width: 100%;
+    max-width: 300px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    opacity: 0;
+    transform: translateY(12px);
+    animation: navSlideIn 0.35s ease forwards;
+  }
+
+  /* Stagger each link entrance */
+  .nav-links.mobile-open li:nth-child(1)  { animation-delay: 0.03s; }
+  .nav-links.mobile-open li:nth-child(2)  { animation-delay: 0.06s; }
+  .nav-links.mobile-open li:nth-child(3)  { animation-delay: 0.09s; }
+  .nav-links.mobile-open li:nth-child(4)  { animation-delay: 0.12s; }
+  .nav-links.mobile-open li:nth-child(5)  { animation-delay: 0.15s; }
+  .nav-links.mobile-open li:nth-child(6)  { animation-delay: 0.18s; }
+  .nav-links.mobile-open li:nth-child(7)  { animation-delay: 0.21s; }
+  .nav-links.mobile-open li:nth-child(8)  { animation-delay: 0.24s; }
+  .nav-links.mobile-open li:nth-child(9)  { animation-delay: 0.27s; }
+  .nav-links.mobile-open li:nth-child(10) { animation-delay: 0.30s; }
+  .nav-links.mobile-open li:nth-child(11) { animation-delay: 0.33s; }
+
+  .nav-links li:last-child {
+    border-bottom: none;
+  }
+
+  .nav-links a {
+    font-size: 1.05rem;
+    opacity: 0.7;
+    display: block;
+    padding: 16px 0;
+    letter-spacing: 0.01em;
+    transition: opacity 0.25s ease, color 0.25s ease;
+  }
+
+  .nav-links a:hover,
+  .nav-links a.active {
+    opacity: 1;
+  }
+
+  .nav-links a.active {
+    background: linear-gradient(90deg, #6dc8f2, #c084fc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  @keyframes navSlideIn {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 
   /* Sections */
   section { padding: 80px 16px; width: 100%; overflow-x: hidden; }
