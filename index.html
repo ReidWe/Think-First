@@ -4,8 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Open AI Policy | Syracuse University</title>
-
-  <!-- SEO & Social Sharing -->
   <meta name="description" content="A research-backed argument for Syracuse University to adopt the Think First framework, an open AI policy that structures how students engage with AI tools in academic writing.">
   <meta name="author" content="Corso, Webster, & Ras - Syracuse University">
   <meta property="og:title" content="Open AI Policy | Syracuse University">
@@ -16,11 +14,7 @@
   <meta name="twitter:title" content="Open AI Policy | Syracuse University">
   <meta name="twitter:description" content="Demand the blank page. A research-backed argument for the Think First framework.">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📄</text></svg>">
-
-  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
-
-  <!-- Stylesheets -->
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/mobile.css">
@@ -29,15 +23,13 @@
   <nav>
     <div class="logo">PearAI</div>
     <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false">
-      <span></span>
-      <span></span>
-      <span></span>
+      <span></span><span></span><span></span>
     </button>
     <ul class="nav-links" id="navLinks">
-      <li><a href="#vision">Vision</a></li>
-      <li><a href="#impact">Impact</a></li>
-      <li><a href="#research">Research</a></li>
       <li><a href="#problem">The Problem</a></li>
+      <li><a href="#vision">Vision</a></li>
+      <li><a href="#research">Research</a></li>
+      <li><a href="#impact">Impact</a></li>
       <li><a href="#principles">Principles</a></li>
       <li><a href="#solution">Solution</a></li>
       <li><a href="#demo">Try It</a></li>
@@ -48,7 +40,7 @@
     </ul>
   </nav>
 
-  <!-- HERO -->
+  <!-- 1. HERO -->
   <section class="hero">
     <p class="overline">A Call to Syracuse University</p>
     <h1>The Blank Page First.</h1>
@@ -56,235 +48,109 @@
     <div class="scroll-hint"><span></span></div>
   </section>
 
-  <!-- VISION -->
-  <section class="feature-section" id="vision">
-    <h2 class="feature-title">Academic resistance doesn't stop usage; <span class="gradient-text">it criminalizes it.</span></h2>
-    <p class="feature-desc">In one Syracuse CSE class with a strict blanket ban, a professor had to file 37 academic integrity reports in a single semester. Banning AI does not work. But neither does ignoring it.</p>
-    <p class="feature-desc" style="margin-top: 25px;">What happens to creative confidence when an AI tool becomes the default starting point rather than the last resort? Over-reliance on AI can hinder students' ability to internalize the writing process and diminish their capacity for independent problem-solving (Khojasteh et al., 2025). The answer is not prohibition. It is structured guidance.</p>
-  </section>
-
-  <!-- IMPACT STATS -->
-  <section class="stats-section" id="impact">
-    <h2 class="feature-title" style="color: #f5f5f7;">The numbers speak.</h2>
-    <div class="stats-grid">
-      <div class="stat">
-        <div class="stat-number">8.3</div>
-        <div class="stat-label">Average student confidence in original ideation without AI (out of 10)</div>
-      </div>
-      <div class="stat">
-        <div class="stat-number">66%</div>
-        <div class="stat-label">Of students use AI only during drafting or editing, not to generate original ideas</div>
-      </div>
-      <div class="stat">
-        <div class="stat-number">0</div>
-        <div class="stat-label">Students in our survey who reported never using AI tools</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- PRIMARY RESEARCH DATA -->
-  <section class="research-section" id="research">
-    <div class="research-subtitle">Syracuse University Survey Data</div>
-    <h2 class="feature-title">We asked. <span class="gradient-text">Students answered.</span></h2>
-    <p class="feature-desc-wide">Our group surveyed 15 Syracuse University students across 8 different schools to understand how they use AI, how confident they feel without it, and how clear they find their university's policies.</p>
-
-    <div class="data-cards reveal">
-      <div class="data-card">
-        <div class="data-card-big-number">73.4%</div>
-        <h3>Confident Creators</h3>
-        <p>Nearly three quarters of respondents rated their confidence in generating original ideas at 8 out of 10 or higher, even while using AI on a regular basis.</p>
-        <span class="source-tag">Primary survey data, n = 15</span>
-      </div>
-      <div class="data-card">
-        <div class="data-card-big-number">13.3%</div>
-        <h3>AI at the Start</h3>
-        <p>Only a small fraction of students introduce AI during the prewriting phase. The vast majority bring it in during drafting or editing, preserving the brainstorming process as their own.</p>
-        <span class="source-tag">Primary survey data, n = 15</span>
-      </div>
-      <div class="data-card">
-        <div class="data-card-big-number">7.9</div>
-        <h3>Policy Clarity (Average)</h3>
-        <p>Students rated AI policy clarity at 7.9 out of 10 overall, but this average hides a dramatic range. Architecture scored a 10. Newhouse scored a 6. The gap reveals an inconsistency problem.</p>
-        <span class="source-tag">Primary survey data, n = 15</span>
-      </div>
-      <div class="data-card">
-        <div class="data-card-big-number">5-10</div>
-        <h3>Engineering's Variance</h3>
-        <p>Within the College of Engineering and Computer Science alone, policy clarity scores ranged from 5 to 10. Even in the most AI-adjacent school on campus, students cannot agree on what the rules are.</p>
-        <span class="source-tag">Primary survey data, n = 5 (ECS respondents)</span>
-      </div>
-    </div>
-
-    <!-- Bar chart: When students use AI -->
-    <div class="bar-chart-section reveal">
-      <div class="bar-chart-title">When do students introduce AI in their writing process?</div>
-      <div class="bar-row">
-        <div class="bar-label">Editing / Proofreading</div>
-        <div class="bar-track"><div class="bar-fill blue" data-width="33.3" style="width: 0%;">33.3%</div></div>
-      </div>
-      <div class="bar-row">
-        <div class="bar-label">Drafting</div>
-        <div class="bar-track"><div class="bar-fill purple" data-width="33.3" style="width: 0%;">33.3%</div></div>
-      </div>
-      <div class="bar-row">
-        <div class="bar-label">Researching</div>
-        <div class="bar-track"><div class="bar-fill pink" data-width="20" style="width: 0%;">20%</div></div>
-      </div>
-      <div class="bar-row">
-        <div class="bar-label">Prewriting</div>
-        <div class="bar-track"><div class="bar-fill green" data-width="13.3" style="width: 0%;">13.3%</div></div>
-      </div>
-    </div>
-
-    <!-- Heatmap: Policy clarity by school -->
-    <div class="bar-chart-section reveal">
-      <div class="bar-chart-title">AI policy clarity by school (out of 10)</div>
-      <div class="bar-row">
-        <div class="bar-label">Architecture</div>
-        <div class="bar-track"><div class="bar-fill clarity-high" data-width="100" style="width: 0%;">10.0</div></div>
-      </div>
-      <div class="bar-row">
-        <div class="bar-label">Whitman</div>
-        <div class="bar-track"><div class="bar-fill clarity-high" data-width="100" style="width: 0%;">10.0</div></div>
-      </div>
-      <div class="bar-row">
-        <div class="bar-label">Graduate School</div>
-        <div class="bar-track"><div class="bar-fill clarity-high" data-width="90" style="width: 0%;">9.0</div></div>
-      </div>
-      <div class="bar-row">
-        <div class="bar-label">VPA</div>
-        <div class="bar-track"><div class="bar-fill clarity-high" data-width="90" style="width: 0%;">9.0</div></div>
-      </div>
-      <div class="bar-row">
-        <div class="bar-label">iSchool</div>
-        <div class="bar-track"><div class="bar-fill clarity-medium" data-width="80" style="width: 0%;">8.0</div></div>
-      </div>
-      <div class="bar-row">
-        <div class="bar-label">Engineering & CS</div>
-        <div class="bar-track"><div class="bar-fill clarity-medium" data-width="78" style="width: 0%;">7.8</div></div>
-      </div>
-      <div class="bar-row">
-        <div class="bar-label">Maxwell</div>
-        <div class="bar-track"><div class="bar-fill clarity-medium" data-width="70" style="width: 0%;">7.0</div></div>
-      </div>
-      <div class="bar-row">
-        <div class="bar-label">Falk College</div>
-        <div class="bar-track"><div class="bar-fill clarity-medium" data-width="70" style="width: 0%;">7.0</div></div>
-      </div>
-      <div class="bar-row">
-        <div class="bar-label">Newhouse</div>
-        <div class="bar-track"><div class="bar-fill clarity-low" data-width="60" style="width: 0%;">6.0</div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- THE PROBLEM -->
+  <!-- 2. THE PROBLEM -->
   <section class="problem-section" id="problem">
     <div class="research-subtitle">The Core Issue</div>
     <h2 class="feature-title">The blank page is disappearing, <span class="gradient-text-warm">and so is the struggle that makes us learn.</span></h2>
-    
     <div class="problem-grid reveal">
       <div class="problem-text">
         <h3>Cognitive Outsourcing</h3>
         <p>When students use AI instead of working through the struggle of idea generation, they skip the intellectual process that builds creative self-competence. Engaging in intellectual challenges activates the brain's reward system and promotes motivation, but AI shortcuts this process entirely (Hasan, 2025). Students recognize that AI might be doing too much thinking for them; they see that brainstorming becomes easier, but only because AI is doing the brainstorming for them (Habib et al., 2024).</p>
-
         <h3 style="margin-top: 30px;">The Pattern in Our Data</h3>
         <p>Our survey found that 47% of Syracuse respondents introduce AI during prewriting or drafting, exactly when developing critical thinking skills matters most. The two respondents who rated their confidence at 6 out of 10 both reported using AI "always" or "often." Meanwhile, the two respondents who use AI "rarely" scored a 9 and a 10 on their confidence rating. While we cannot establish causation from a sample of 15, the pattern suggests that unstructured, early-stage AI use may be linked to lower creative self-efficacy.</p>
-
         <h3 style="margin-top: 30px;">Inconsistent Guidance Makes It Worse</h3>
         <p>This shift is worsened by inconsistent AI policies across schools. Universities have not yet fully integrated AI literacy into their writing programs, leaving students unprepared to engage with these tools ethically (Khojasteh et al., 2025). At Syracuse, clarity scores vary drastically by college. This decentralized environment creates a void where students default to the path of least cognitive resistance.</p>
       </div>
       <div class="problem-visual">
-        <div class="problem-stat-card">
-          <div class="big">47%</div>
-          <div class="detail">Of Syracuse students surveyed introduce AI during prewriting or drafting, the stages where original thinking develops</div>
-        </div>
-        <div class="problem-stat-card">
-          <div class="big">6/10</div>
-          <div class="detail">Confidence rating from students who use AI "always" or "often," compared to 9-10 from those who rarely use AI</div>
-        </div>
-        <div class="problem-stat-card">
-          <div class="big">37</div>
-          <div class="detail">Academic integrity reports filed in a single Syracuse CSE class with a blanket AI ban</div>
-        </div>
-        <div class="problem-stat-card">
-          <div class="big">4 pts</div>
-          <div class="detail">The gap in policy clarity between Architecture (10.0) and Newhouse (6.0) at Syracuse</div>
-        </div>
+        <div class="problem-stat-card"><div class="big">47%</div><div class="detail">Of Syracuse students surveyed introduce AI during prewriting or drafting, the stages where original thinking develops</div></div>
+        <div class="problem-stat-card"><div class="big">6/10</div><div class="detail">Confidence rating from students who use AI "always" or "often," compared to 9-10 from those who rarely use AI</div></div>
+        <div class="problem-stat-card"><div class="big">37</div><div class="detail">Academic integrity reports filed in a single Syracuse CSE class with a blanket AI ban</div></div>
+        <div class="problem-stat-card"><div class="big">4 pts</div><div class="detail">The gap in policy clarity between Architecture (10.0) and Newhouse (6.0) at Syracuse</div></div>
       </div>
     </div>
   </section>
 
-  <!-- PRINCIPLES -->
+  <!-- 3. VISION -->
+  <section class="feature-section" id="vision">
+    <h2 class="feature-title">So universities banned it. <span class="gradient-text">That made it worse.</span></h2>
+    <p class="feature-desc">In one Syracuse CSE class with a strict blanket ban, a professor had to file 37 academic integrity reports in a single semester. Banning AI does not stop usage. It criminalizes it.</p>
+    <p class="feature-desc" style="margin-top: 25px;">Over-reliance on AI can hinder students' ability to internalize the writing process and diminish their capacity for independent problem-solving (Khojasteh et al., 2025). But prohibition only drives that reliance underground. The answer is not to ban the tool. It is to structure when and how students reach for it.</p>
+  </section>
+
+  <!-- 4. RESEARCH DATA -->
+  <section class="research-section" id="research">
+    <div class="research-subtitle">Syracuse University Survey Data</div>
+    <h2 class="feature-title">We asked. <span class="gradient-text">Students answered.</span></h2>
+    <p class="feature-desc-wide">We surveyed 15 Syracuse University students across 8 different schools to understand how they use AI, how confident they feel without it, and how clear they find their university's policies.</p>
+    <div class="data-cards reveal">
+      <div class="data-card"><div class="data-card-big-number">73.4%</div><h3>Confident Creators</h3><p>Nearly three quarters of respondents rated their confidence in generating original ideas at 8 out of 10 or higher, even while using AI on a regular basis.</p><span class="source-tag">Primary survey data, n = 15</span></div>
+      <div class="data-card"><div class="data-card-big-number">13.3%</div><h3>AI at the Start</h3><p>Only a small fraction of students introduce AI during the prewriting phase. The vast majority bring it in during drafting or editing, preserving the brainstorming process as their own.</p><span class="source-tag">Primary survey data, n = 15</span></div>
+      <div class="data-card"><div class="data-card-big-number">7.9</div><h3>Policy Clarity (Average)</h3><p>Students rated AI policy clarity at 7.9 out of 10 overall, but this average hides a dramatic range. Architecture scored a 10. Newhouse scored a 6. The gap reveals an inconsistency problem.</p><span class="source-tag">Primary survey data, n = 15</span></div>
+      <div class="data-card"><div class="data-card-big-number">5-10</div><h3>Engineering's Variance</h3><p>Within the College of Engineering and Computer Science alone, policy clarity scores ranged from 5 to 10. Even in the most AI-adjacent school on campus, students cannot agree on what the rules are.</p><span class="source-tag">Primary survey data, n = 5 (ECS respondents)</span></div>
+    </div>
+    <div class="bar-chart-section reveal">
+      <div class="bar-chart-title">When do students introduce AI in their writing process?</div>
+      <div class="bar-row"><div class="bar-label">Editing / Proofreading</div><div class="bar-track"><div class="bar-fill blue" data-width="33.3" style="width: 0%;">33.3%</div></div></div>
+      <div class="bar-row"><div class="bar-label">Drafting</div><div class="bar-track"><div class="bar-fill purple" data-width="33.3" style="width: 0%;">33.3%</div></div></div>
+      <div class="bar-row"><div class="bar-label">Researching</div><div class="bar-track"><div class="bar-fill pink" data-width="20" style="width: 0%;">20%</div></div></div>
+      <div class="bar-row"><div class="bar-label">Prewriting</div><div class="bar-track"><div class="bar-fill green" data-width="13.3" style="width: 0%;">13.3%</div></div></div>
+    </div>
+    <div class="bar-chart-section reveal">
+      <div class="bar-chart-title">AI policy clarity by school (out of 10)</div>
+      <div class="bar-row"><div class="bar-label">Architecture</div><div class="bar-track"><div class="bar-fill clarity-high" data-width="100" style="width: 0%;">10.0</div></div></div>
+      <div class="bar-row"><div class="bar-label">Whitman</div><div class="bar-track"><div class="bar-fill clarity-high" data-width="100" style="width: 0%;">10.0</div></div></div>
+      <div class="bar-row"><div class="bar-label">Graduate School</div><div class="bar-track"><div class="bar-fill clarity-high" data-width="90" style="width: 0%;">9.0</div></div></div>
+      <div class="bar-row"><div class="bar-label">VPA</div><div class="bar-track"><div class="bar-fill clarity-high" data-width="90" style="width: 0%;">9.0</div></div></div>
+      <div class="bar-row"><div class="bar-label">iSchool</div><div class="bar-track"><div class="bar-fill clarity-medium" data-width="80" style="width: 0%;">8.0</div></div></div>
+      <div class="bar-row"><div class="bar-label">Engineering & CS</div><div class="bar-track"><div class="bar-fill clarity-medium" data-width="78" style="width: 0%;">7.8</div></div></div>
+      <div class="bar-row"><div class="bar-label">Maxwell</div><div class="bar-track"><div class="bar-fill clarity-medium" data-width="70" style="width: 0%;">7.0</div></div></div>
+      <div class="bar-row"><div class="bar-label">Falk College</div><div class="bar-track"><div class="bar-fill clarity-medium" data-width="70" style="width: 0%;">7.0</div></div></div>
+      <div class="bar-row"><div class="bar-label">Newhouse</div><div class="bar-track"><div class="bar-fill clarity-low" data-width="60" style="width: 0%;">6.0</div></div></div>
+    </div>
+  </section>
+
+  <!-- 5. IMPACT STATS -->
+  <section class="stats-section" id="impact">
+    <h2 class="feature-title" style="color: #f5f5f7;">What it all adds up to.</h2>
+    <div class="stats-grid">
+      <div class="stat"><div class="stat-number">8.3</div><div class="stat-label">Average student confidence in original ideation without AI (out of 10)</div></div>
+      <div class="stat"><div class="stat-number">66%</div><div class="stat-label">Of students use AI only during drafting or editing, not to generate original ideas</div></div>
+      <div class="stat"><div class="stat-number">0</div><div class="stat-label">Students in our survey who reported never using AI tools</div></div>
+    </div>
+  </section>
+
+  <!-- 6. PRINCIPLES -->
   <section class="cards-section" id="principles">
-    <h2 class="feature-title">What we believe.</h2>
+    <div class="research-subtitle">Before the solution, the philosophy</div>
+    <h2 class="feature-title">Four principles for AI literacy.</h2>
     <div class="cards-grid">
-      <div class="card">
-        <div class="card-icon">&#x25EF;</div>
-        <h3>Pragmatic Understanding</h3>
-        <p>Use AI effectively and interpret output critically. This means having the expertise to recognize when AI-generated work is overly complex or simply wrong, as often happens in technical fields like microcontroller programming (Zhao et al., 2024).</p>
-      </div>
-      <div class="card">
-        <div class="card-icon">&#x25CE;</div>
-        <h3>Safety Understanding</h3>
-        <p>Use AI responsibly and ethically. Students must understand data privacy and the professional risks of uploading proprietary or sensitive information to external AI models (Zhao et al., 2024).</p>
-      </div>
-      <div class="card">
-        <div class="card-icon">&#x25C7;</div>
-        <h3>Ethical Disclosure</h3>
-        <p>Transparency is the foundation of literacy. By documenting which program was used and how the response was incorporated into your work, you authorize your usage and ensure your integrity is never in question.</p>
-      </div>
-      <div class="card">
-        <div class="card-icon">&#x25B3;</div>
-        <h3>Reflective Understanding</h3>
-        <p>Assess AI's impact on your learning. This is the "Forklift in the Gym" principle: if you use a forklift to bring weights to your bench, it is a useful tool. But if you use it to lift the weights for you, you have defeated the purpose of the gym (Zhao et al., 2024).</p>
-      </div>
+      <div class="card"><div class="card-icon">&#x25EF;</div><h3>Pragmatic Understanding</h3><p>Use AI effectively and interpret output critically. This means having the expertise to recognize when AI-generated work is overly complex or simply wrong, as often happens in technical fields like microcontroller programming (Zhao et al., 2024).</p></div>
+      <div class="card"><div class="card-icon">&#x25CE;</div><h3>Safety Understanding</h3><p>Use AI responsibly and ethically. Students must understand data privacy and the professional risks of uploading proprietary or sensitive information to external AI models (Zhao et al., 2024).</p></div>
+      <div class="card"><div class="card-icon">&#x25C7;</div><h3>Ethical Disclosure</h3><p>Transparency is the foundation of literacy. By documenting which program was used and how the response was incorporated into your work, you authorize your usage and ensure your integrity is never in question.</p></div>
+      <div class="card"><div class="card-icon">&#x25B3;</div><h3>Reflective Understanding</h3><p>Assess AI's impact on your learning. This is the "Forklift in the Gym" principle: if you use a forklift to bring weights to your bench, it is a useful tool. But if you use it to lift the weights for you, you have defeated the purpose of the gym (Zhao et al., 2024).</p></div>
     </div>
   </section>
 
-  <!-- SOLUTION -->
+  <!-- 7. SOLUTION -->
   <section class="solution-section" id="solution">
     <div class="research-subtitle">The Proposal</div>
     <h2 class="feature-title">Think First. <span class="gradient-text">Then use AI.</span></h2>
     <p class="feature-desc-wide">Syracuse University should implement a "Think First" pedagogical framework: an AI-Assisted Ideation Protocol that requires students to conduct their initial brainstorm without AI, then introduce it as a late-stage tool to expand, refine, and polish their own ideas.</p>
-
     <div class="solution-pillars reveal">
-      <div class="pillar">
-        <div class="pillar-number">01</div>
-        <h3>Blank Page Before Prompt</h3>
-        <p>The protocol mandates unassisted brainstorming and outlining before students introduce AI. By requiring students to confront the blank page first, the university protects original thought and ensures AI functions as a tool subordinate to the student, not vice versa (de Araujo &amp; Schneider, 2025).</p>
-      </div>
-      <div class="pillar">
-        <div class="pillar-number">02</div>
-        <h3>Transparency, Not Surveillance</h3>
-        <p>Rather than relying on invasive detection software, the framework uses AI collaboration statements where students document their process. This shifts the focus from catching cheaters to fostering genuine academic integrity and metacognitive awareness.</p>
-      </div>
-      <div class="pillar">
-        <div class="pillar-number">03</div>
-        <h3>Zero Cost, Existing Infrastructure</h3>
-        <p>This requires no financial investment or new software. It integrates into the existing WRT 105 and WRT 205 curriculum, and the Syracuse University Writing Center can train peer consultants to guide students through independent brainstorming exercises.</p>
-      </div>
+      <div class="pillar"><div class="pillar-number">01</div><h3>Blank Page Before Prompt</h3><p>The protocol mandates unassisted brainstorming and outlining before students introduce AI. By requiring students to confront the blank page first, the university protects original thought and ensures AI functions as a tool subordinate to the student, not vice versa (de Araujo &amp; Schneider, 2025).</p></div>
+      <div class="pillar"><div class="pillar-number">02</div><h3>Transparency, Not Surveillance</h3><p>Rather than relying on invasive detection software, the framework uses AI collaboration statements where students document their process. This shifts the focus from catching cheaters to fostering genuine academic integrity and metacognitive awareness.</p></div>
+      <div class="pillar"><div class="pillar-number">03</div><h3>Zero Cost, Existing Infrastructure</h3><p>This requires no financial investment or new software. It integrates into the existing WRT 105 and WRT 205 curriculum, and the Syracuse University Writing Center can train peer consultants to guide students through independent brainstorming exercises.</p></div>
     </div>
-
     <div class="data-cards reveal" style="margin-top: 50px;">
-      <div class="data-card">
-        <h3>Why Not Just Ban It?</h3>
-        <p>Prohibiting the technology entirely is not a viable option (Saud&eacute; et al., 2024). Students actively resist and inevitably bypass outright bans, as the 37 integrity reports in a single CSE class demonstrate. The Think First protocol shifts when and how students engage with AI, not whether they can.</p>
-        <span class="source-tag">Saud&eacute; et al., 2024</span>
-      </div>
-      <div class="data-card">
-        <h3>The Research Supports It</h3>
-        <p>AI should act as a complement to, rather than a replacement for, human effort (Hasan, 2025). Students who use AI must do so with mindfulness and recognize how the balance of technology and human intuition is very delicate (Fortino, 2025). The Think First framework codifies this principle into policy.</p>
-        <span class="source-tag">Hasan, 2025; Fortino, 2025</span>
-      </div>
+      <div class="data-card"><h3>Why Not Just Ban It?</h3><p>Prohibiting the technology entirely is not a viable option (Saud&eacute; et al., 2024). Students actively resist and inevitably bypass outright bans, as the 37 integrity reports in a single CSE class demonstrate. The Think First protocol shifts when and how students engage with AI, not whether they can.</p><span class="source-tag">Saud&eacute; et al., 2024</span></div>
+      <div class="data-card"><h3>The Research Supports It</h3><p>AI should act as a complement to, rather than a replacement for, human effort (Hasan, 2025). Students who use AI must do so with mindfulness and recognize how the balance of technology and human intuition is very delicate (Fortino, 2025). The Think First framework codifies this principle into policy.</p><span class="source-tag">Hasan, 2025; Fortino, 2025</span></div>
     </div>
   </section>
 
-  <!-- DEMO -->
+  <!-- 8. DEMO -->
   <section class="demo-section" id="demo">
     <h2 class="feature-title">Try it yourself.</h2>
-    <p class="feature-desc" style="margin-bottom: 50px;">See what open AI can do. Click a prompt below (text input is disabled for this demo).</p>
-    
+    <p class="feature-desc" style="margin-bottom: 50px;">See what open AI policy looks like in practice. Click a prompt below.</p>
     <div class="demo-container">
       <div class="prompt-suggestions">
         <button class="prompt-chip" onclick="setPrompt(this)">Explain what open AI policy means</button>
@@ -292,28 +158,20 @@
         <button class="prompt-chip" onclick="setPrompt(this)">What did your survey find?</button>
         <button class="prompt-chip" onclick="setPrompt(this)">How can I get involved in AI policy?</button>
       </div>
-      
       <div class="chat-window">
         <div class="chat-messages" id="chatMessages">
-          <div class="message assistant">
-            <div class="message-bubble">Hi! I'm here to answer questions about open AI policy at Syracuse University. Select a prompt above to learn more.</div>
-          </div>
+          <div class="message assistant"><div class="message-bubble">Hi! I'm here to answer questions about open AI policy at Syracuse University. Select a prompt above to learn more.</div></div>
         </div>
         <div class="chat-input-area">
           <input type="text" id="userInput" placeholder="Input disabled for this demo..." disabled>
-          <button class="send-btn" disabled>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M22 2L11 13M22 2L15 22L11 13M11 13L2 9L22 2"/>
-            </svg>
-          </button>
+          <button class="send-btn" disabled><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2L15 22L11 13M11 13L2 9L22 2"/></svg></button>
         </div>
       </div>
-      
       <p class="demo-note">This is a demo. This chat is not connected to an AI LLM.</p>
     </div>
   </section>
 
-  <!-- CALL TO ACTION -->
+  <!-- 9. CTA -->
   <section class="cta-section" id="action">
     <h2 class="cta-title">Demand the blank page.</h2>
     <p class="feature-desc" style="margin-bottom: 20px;">The stakes extend well beyond WRT 205. If university graduates enter professional life having outsourced their initial thinking to a language model throughout their formative academic years, the implications ripple outward. Higher education has always staked its value on cultivating original thinkers. That mission does not become less urgent because the tools for bypassing original thought have become more sophisticated. It becomes more urgent.</p>
@@ -324,66 +182,39 @@
     </div>
   </section>
 
-  <!-- BUILT WITH AI -->
+  <!-- 10. BUILT WITH AI -->
   <section class="made-with-ai" id="built-with-ai">
     <div class="ai-badge">&#x2726;</div>
     <h2 class="feature-title">This site was built <span class="gradient-text">almost entirely by AI.</span></h2>
     <p class="feature-desc" style="margin-bottom: 50px;">No templates. No drag-and-drop builders. Just a conversation between a human with a vision and Claude, an AI assistant by Anthropic.</p>
-    
     <div class="ai-story">
-      <div class="ai-story-block">
-        <div class="ai-story-number">01</div>
-        <h3>The Idea</h3>
-        <p>It started with a simple request: create a website advocating for open AI policy. No wireframes, no design specs, just a goal and a conversation.</p>
-      </div>
-      <div class="ai-story-block">
-        <div class="ai-story-number">02</div>
-        <h3>The Collaboration</h3>
-        <p>Using AI to handle the structural HTML code, I had time to develop the vision I wanted to portray. Although some parts of the code were written by me, almost all of the skeleton was AI.</p>
-      </div>
-      <div class="ai-story-block">
-        <div class="ai-story-number">03</div>
-        <h3>The Result</h3>
-        <p>A fully functional, responsive website with custom CSS animations, JavaScript interactivity, integrated research data, and a cohesive argument built on primary and secondary evidence.</p>
-      </div>
+      <div class="ai-story-block"><div class="ai-story-number">01</div><h3>The Idea</h3><p>It started with a simple request: create a website advocating for open AI policy. No wireframes, no design specs, just a goal and a conversation.</p></div>
+      <div class="ai-story-block"><div class="ai-story-number">02</div><h3>The Collaboration</h3><p>Using AI to handle the structural HTML code, I had time to develop the vision I wanted to portray. Although some parts of the code were written by me, almost all of the skeleton was AI.</p></div>
+      <div class="ai-story-block"><div class="ai-story-number">03</div><h3>The Result</h3><p>A fully functional, responsive website with custom CSS animations, JavaScript interactivity, integrated research data, and a cohesive argument built on primary and secondary evidence.</p></div>
     </div>
-    
     <div class="ai-details">
-      <div class="ai-detail">
-        <span class="ai-detail-value">1</span>
-        <span class="ai-detail-label">Idea</span>
-      </div>
-      <div class="ai-detail">
-        <span class="ai-detail-value">1</span>
-        <span class="ai-detail-label">Conversation</span>
-      </div>
-      <div class="ai-detail">
-        <span class="ai-detail-value">90%</span>
-        <span class="ai-detail-label">AI-generated code</span>
-      </div>
+      <div class="ai-detail"><span class="ai-detail-value">1</span><span class="ai-detail-label">Idea</span></div>
+      <div class="ai-detail"><span class="ai-detail-value">1</span><span class="ai-detail-label">Conversation</span></div>
+      <div class="ai-detail"><span class="ai-detail-value">90%</span><span class="ai-detail-label">AI-generated code</span></div>
     </div>
-    
     <div class="ai-cta">
       <p class="ai-note">This is what AI makes possible. Not replacing human creativity, but amplifying it. Tools that empower anyone to build, regardless of technical background.</p>
       <a href="https://claude.ai" target="_blank" class="btn btn-primary" style="margin-top: 30px;">Try Claude</a>
     </div>
   </section>
 
-  <!-- SU ID BADGE -->
+  <!-- 11. BADGE -->
   <section class="badge-section" id="badge">
     <h2 class="feature-title" style="margin-bottom: 10px;">Our <span class="gradient-text">Identity.</span></h2>
     <p class="feature-desc" style="margin-bottom: 20px;">Syracuse students, faculty, and staff carry this every day. AI policy should be just as universal.</p>
-    <div class="badge-canvas-wrap">
-      <canvas id="badgeCanvas"></canvas>
-    </div>
+    <div class="badge-canvas-wrap"><canvas id="badgeCanvas"></canvas></div>
     <p class="badge-hint">Grab the badge and fling it around</p>
   </section>
 
-  <!-- REFERENCES -->
+  <!-- 12. REFERENCES -->
   <section class="references-section" id="references">
     <h2 class="feature-title">References</h2>
     <p class="feature-desc" style="margin-bottom: 60px;">Sources cited throughout this argument, formatted in APA 7th edition.</p>
-    
     <div class="references-container">
       <div class="apa-references">
         <p class="apa-entry">Araujo, G. C. L. de, &amp; Schneider, M. A. F. (2025). Critical information literacy as a compass: Using generative AI in academic research and writing. <em>Library Trends, 73</em>(4), 493&ndash;515. <a href="https://doi.org/10.1353/lib.2025.a968493" target="_blank">https://doi.org/10.1353/lib.2025.a968493</a></p>
@@ -400,11 +231,8 @@
     </div>
   </section>
 
-  <footer>
-    <p>&copy; 2026 Open AI Policy Initiative. Building a more open future.</p>
-  </footer>
+  <footer><p>&copy; 2026 Open AI Policy Initiative. Building a more open future.</p></footer>
 
-  <!-- Scripts: loaded in order of dependency -->
   <script src="js/nav.js"></script>
   <script src="js/observers.js"></script>
   <script src="js/chat.js"></script>
