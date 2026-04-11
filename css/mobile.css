@@ -147,8 +147,6 @@
 
   /* Badge */
   .badge-canvas-wrap { height: 650px; }
-  .badge-hint { display: none; }
-  .badge-canvas-wrap canvas { touch-action: auto; pointer-events: none; }
 
   /* References */
   .references-section { padding: 60px 16px; }

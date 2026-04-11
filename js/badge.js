@@ -224,67 +224,89 @@
   function bLoop() { bSimulate(); bRender(); requestAnimationFrame(bLoop); }
   bLoop();
 
-  // ---- Input handling (desktop only) ----
-  // On mobile/touch devices, disable interaction so the badge section
-  // does not hijack scrolling. The badge still animates via gravity.
-  const isMobileDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+  // ---- Input handling ----
+  // On touch devices the key problem is that the canvas captures all
+  // touch events, blocking page scroll. The fix: only call
+  // preventDefault() when the finger actually lands on the badge card
+  // or lanyard. Touches anywhere else on the canvas pass through to
+  // the browser so scrolling works normally.
 
-  if (!isMobileDevice) {
-    function bGetPos(e) {
-      const rect = badgeCanvas.getBoundingClientRect();
-      if (e.touches) return { x: e.touches[0].clientX - rect.left, y: e.touches[0].clientY - rect.top };
-      return { x: e.clientX - rect.left, y: e.clientY - rect.top };
-    }
-
-    function bHitTest(mx, my) {
-      const tip = bPoints[bPoints.length - 1], angle = bSmoothAngle;
-      const dmx = mx - tip.x, dmy = my - tip.y;
-      const cos = Math.cos(-angle), sin = Math.sin(-angle);
-      const lx = dmx * cos - dmy * sin, ly = dmx * sin + dmy * cos;
-      return lx >= -BBADGE_W / 2 && lx <= BBADGE_W / 2 && ly >= -10 && ly <= BBADGE_H - 10;
-    }
-
-    function bOnDown(e) {
-      e.preventDefault();
-      const pos = bGetPos(e);
-      if (bHitTest(pos.x, pos.y)) {
-        bDragging = true; bDragPoint = { x: pos.x, y: pos.y };
-        const p = bPoints[bPoints.length - 1]; p.oldX = p.x; p.oldY = p.y;
-      } else {
-        for (let i = 1; i < bPoints.length; i++) {
-          const p = bPoints[i];
-          if (Math.abs(p.x - pos.x) < 20 && Math.abs(p.y - pos.y) < 20) {
-            bDragging = true; bDragPoint = { x: pos.x, y: pos.y, ropeIndex: i };
-            p.oldX = p.x; p.oldY = p.y; break;
-          }
-        }
-      }
-    }
-
-    function bOnMove(e) {
-      const pos = bGetPos(e); bMouseX = pos.x; bMouseY = pos.y;
-      if (!bDragging) return;
-      e.preventDefault();
-      const lerp = 0.6;
-      if (bDragPoint.ropeIndex !== undefined) {
-        const p = bPoints[bDragPoint.ropeIndex];
-        bDragPoint.x += (pos.x - bDragPoint.x) * lerp;
-        bDragPoint.y += (pos.y - bDragPoint.y) * lerp;
-        p.x = bDragPoint.x; p.y = bDragPoint.y;
-      } else {
-        bDragPoint.x += (pos.x - bDragPoint.x) * lerp;
-        bDragPoint.y += (pos.y - bDragPoint.y) * lerp;
-      }
-    }
-
-    function bOnUp() { bDragging = false; bDragPoint = null; }
-
-    badgeCanvas.addEventListener('mousedown', bOnDown);
-    badgeCanvas.addEventListener('mousemove', bOnMove);
-    badgeCanvas.addEventListener('mouseup', bOnUp);
-    badgeCanvas.addEventListener('mouseleave', bOnUp);
-    badgeCanvas.addEventListener('touchstart', bOnDown, { passive: false });
-    badgeCanvas.addEventListener('touchmove', bOnMove, { passive: false });
-    badgeCanvas.addEventListener('touchend', bOnUp);
+  function bGetPos(e) {
+    const rect = badgeCanvas.getBoundingClientRect();
+    if (e.touches) return { x: e.touches[0].clientX - rect.left, y: e.touches[0].clientY - rect.top };
+    return { x: e.clientX - rect.left, y: e.clientY - rect.top };
   }
+
+  function bHitTest(mx, my) {
+    const tip = bPoints[bPoints.length - 1], angle = bSmoothAngle;
+    const dmx = mx - tip.x, dmy = my - tip.y;
+    const cos = Math.cos(-angle), sin = Math.sin(-angle);
+    const lx = dmx * cos - dmy * sin, ly = dmx * sin + dmy * cos;
+    return lx >= -BBADGE_W / 2 && lx <= BBADGE_W / 2 && ly >= -10 && ly <= BBADGE_H - 10;
+  }
+
+  function bHitLanyard(mx, my) {
+    for (let i = 1; i < bPoints.length; i++) {
+      const p = bPoints[i];
+      if (Math.abs(p.x - mx) < 25 && Math.abs(p.y - my) < 25) return i;
+    }
+    return -1;
+  }
+
+  function bOnDown(e) {
+    const pos = bGetPos(e);
+    const isTouch = !!e.touches;
+
+    // Check if finger/cursor hit the badge card
+    if (bHitTest(pos.x, pos.y)) {
+      if (isTouch) e.preventDefault(); // only block scroll when touching badge
+      bDragging = true;
+      bDragPoint = { x: pos.x, y: pos.y };
+      const p = bPoints[bPoints.length - 1];
+      p.oldX = p.x; p.oldY = p.y;
+      return;
+    }
+
+    // Check if finger/cursor hit the lanyard rope
+    const ropeIdx = bHitLanyard(pos.x, pos.y);
+    if (ropeIdx > 0) {
+      if (isTouch) e.preventDefault();
+      bDragging = true;
+      bDragPoint = { x: pos.x, y: pos.y, ropeIndex: ropeIdx };
+      const p = bPoints[ropeIdx];
+      p.oldX = p.x; p.oldY = p.y;
+      return;
+    }
+
+    // Touch landed on empty canvas area: do NOT preventDefault,
+    // so the browser handles it as a normal scroll.
+  }
+
+  function bOnMove(e) {
+    const pos = bGetPos(e);
+    bMouseX = pos.x; bMouseY = pos.y;
+    if (!bDragging) return;
+    // Only block scroll while actively dragging the badge
+    e.preventDefault();
+    const lerp = 0.6;
+    if (bDragPoint.ropeIndex !== undefined) {
+      const p = bPoints[bDragPoint.ropeIndex];
+      bDragPoint.x += (pos.x - bDragPoint.x) * lerp;
+      bDragPoint.y += (pos.y - bDragPoint.y) * lerp;
+      p.x = bDragPoint.x; p.y = bDragPoint.y;
+    } else {
+      bDragPoint.x += (pos.x - bDragPoint.x) * lerp;
+      bDragPoint.y += (pos.y - bDragPoint.y) * lerp;
+    }
+  }
+
+  function bOnUp() { bDragging = false; bDragPoint = null; }
+
+  badgeCanvas.addEventListener('mousedown', bOnDown);
+  badgeCanvas.addEventListener('mousemove', bOnMove);
+  badgeCanvas.addEventListener('mouseup', bOnUp);
+  badgeCanvas.addEventListener('mouseleave', bOnUp);
+  badgeCanvas.addEventListener('touchstart', bOnDown, { passive: false });
+  badgeCanvas.addEventListener('touchmove', bOnMove, { passive: false });
+  badgeCanvas.addEventListener('touchend', bOnUp);
 })();
