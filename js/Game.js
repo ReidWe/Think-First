@@ -270,7 +270,9 @@
   detailClose.addEventListener('touchend', (e) => { e.preventDefault(); hideDetail(); });
 
   // ---- START ----
+  console.log('[GAME] game.js loaded. startBtn:', startBtn, 'introOverlay:', introOverlay, 'canvas:', canvas);
   startBtn.addEventListener('click', () => {
+    console.log('[GAME] Begin button clicked!');
     gameStarted = true;
     introOverlay.classList.add('hidden');
   });
