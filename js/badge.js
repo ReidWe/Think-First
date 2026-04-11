@@ -224,61 +224,67 @@
   function bLoop() { bSimulate(); bRender(); requestAnimationFrame(bLoop); }
   bLoop();
 
-  // ---- Input handling ----
-  function bGetPos(e) {
-    const rect = badgeCanvas.getBoundingClientRect();
-    if (e.touches) return { x: e.touches[0].clientX - rect.left, y: e.touches[0].clientY - rect.top };
-    return { x: e.clientX - rect.left, y: e.clientY - rect.top };
-  }
+  // ---- Input handling (desktop only) ----
+  // On mobile/touch devices, disable interaction so the badge section
+  // does not hijack scrolling. The badge still animates via gravity.
+  const isMobileDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
 
-  function bHitTest(mx, my) {
-    const tip = bPoints[bPoints.length - 1], angle = bSmoothAngle;
-    const dmx = mx - tip.x, dmy = my - tip.y;
-    const cos = Math.cos(-angle), sin = Math.sin(-angle);
-    const lx = dmx * cos - dmy * sin, ly = dmx * sin + dmy * cos;
-    return lx >= -BBADGE_W / 2 && lx <= BBADGE_W / 2 && ly >= -10 && ly <= BBADGE_H - 10;
-  }
+  if (!isMobileDevice) {
+    function bGetPos(e) {
+      const rect = badgeCanvas.getBoundingClientRect();
+      if (e.touches) return { x: e.touches[0].clientX - rect.left, y: e.touches[0].clientY - rect.top };
+      return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+    }
 
-  function bOnDown(e) {
-    e.preventDefault();
-    const pos = bGetPos(e);
-    if (bHitTest(pos.x, pos.y)) {
-      bDragging = true; bDragPoint = { x: pos.x, y: pos.y };
-      const p = bPoints[bPoints.length - 1]; p.oldX = p.x; p.oldY = p.y;
-    } else {
-      for (let i = 1; i < bPoints.length; i++) {
-        const p = bPoints[i];
-        if (Math.abs(p.x - pos.x) < 20 && Math.abs(p.y - pos.y) < 20) {
-          bDragging = true; bDragPoint = { x: pos.x, y: pos.y, ropeIndex: i };
-          p.oldX = p.x; p.oldY = p.y; break;
+    function bHitTest(mx, my) {
+      const tip = bPoints[bPoints.length - 1], angle = bSmoothAngle;
+      const dmx = mx - tip.x, dmy = my - tip.y;
+      const cos = Math.cos(-angle), sin = Math.sin(-angle);
+      const lx = dmx * cos - dmy * sin, ly = dmx * sin + dmy * cos;
+      return lx >= -BBADGE_W / 2 && lx <= BBADGE_W / 2 && ly >= -10 && ly <= BBADGE_H - 10;
+    }
+
+    function bOnDown(e) {
+      e.preventDefault();
+      const pos = bGetPos(e);
+      if (bHitTest(pos.x, pos.y)) {
+        bDragging = true; bDragPoint = { x: pos.x, y: pos.y };
+        const p = bPoints[bPoints.length - 1]; p.oldX = p.x; p.oldY = p.y;
+      } else {
+        for (let i = 1; i < bPoints.length; i++) {
+          const p = bPoints[i];
+          if (Math.abs(p.x - pos.x) < 20 && Math.abs(p.y - pos.y) < 20) {
+            bDragging = true; bDragPoint = { x: pos.x, y: pos.y, ropeIndex: i };
+            p.oldX = p.x; p.oldY = p.y; break;
+          }
         }
       }
     }
-  }
 
-  function bOnMove(e) {
-    const pos = bGetPos(e); bMouseX = pos.x; bMouseY = pos.y;
-    if (!bDragging) return;
-    e.preventDefault();
-    const lerp = 0.6;
-    if (bDragPoint.ropeIndex !== undefined) {
-      const p = bPoints[bDragPoint.ropeIndex];
-      bDragPoint.x += (pos.x - bDragPoint.x) * lerp;
-      bDragPoint.y += (pos.y - bDragPoint.y) * lerp;
-      p.x = bDragPoint.x; p.y = bDragPoint.y;
-    } else {
-      bDragPoint.x += (pos.x - bDragPoint.x) * lerp;
-      bDragPoint.y += (pos.y - bDragPoint.y) * lerp;
+    function bOnMove(e) {
+      const pos = bGetPos(e); bMouseX = pos.x; bMouseY = pos.y;
+      if (!bDragging) return;
+      e.preventDefault();
+      const lerp = 0.6;
+      if (bDragPoint.ropeIndex !== undefined) {
+        const p = bPoints[bDragPoint.ropeIndex];
+        bDragPoint.x += (pos.x - bDragPoint.x) * lerp;
+        bDragPoint.y += (pos.y - bDragPoint.y) * lerp;
+        p.x = bDragPoint.x; p.y = bDragPoint.y;
+      } else {
+        bDragPoint.x += (pos.x - bDragPoint.x) * lerp;
+        bDragPoint.y += (pos.y - bDragPoint.y) * lerp;
+      }
     }
+
+    function bOnUp() { bDragging = false; bDragPoint = null; }
+
+    badgeCanvas.addEventListener('mousedown', bOnDown);
+    badgeCanvas.addEventListener('mousemove', bOnMove);
+    badgeCanvas.addEventListener('mouseup', bOnUp);
+    badgeCanvas.addEventListener('mouseleave', bOnUp);
+    badgeCanvas.addEventListener('touchstart', bOnDown, { passive: false });
+    badgeCanvas.addEventListener('touchmove', bOnMove, { passive: false });
+    badgeCanvas.addEventListener('touchend', bOnUp);
   }
-
-  function bOnUp() { bDragging = false; bDragPoint = null; }
-
-  badgeCanvas.addEventListener('mousedown', bOnDown);
-  badgeCanvas.addEventListener('mousemove', bOnMove);
-  badgeCanvas.addEventListener('mouseup', bOnUp);
-  badgeCanvas.addEventListener('mouseleave', bOnUp);
-  badgeCanvas.addEventListener('touchstart', bOnDown, { passive: false });
-  badgeCanvas.addEventListener('touchmove', bOnMove, { passive: false });
-  badgeCanvas.addEventListener('touchend', bOnUp);
 })();
