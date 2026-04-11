@@ -139,6 +139,7 @@
   .ai-note { font-size: 1rem; }
 
   /* Argument Explorer Game */
+  .game-section { padding: 0; min-height: 100vh; }
   #controlsHint { display: none; }
   #minimap { width: 70px; height: 70px; bottom: 12px; right: 12px; }
   #gameHud { padding: 8px 16px; }
