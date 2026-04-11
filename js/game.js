@@ -108,6 +108,11 @@
   const keys = { up: false, down: false, left: false, right: false };
   const joystick = { active: false, id: null, originX: 0, originY: 0, dx: 0, dy: 0 };
 
+  // Mobile touch hint state
+  const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+  let touchHintOpacity = isTouchDevice ? 1 : 0;
+  let hasEverMoved = false;
+
   // ---- PLACE CARDS ----
   const cards = [];
   function placeCards() {
@@ -249,8 +254,16 @@
   canvas.addEventListener('touchcancel', endJoystick);
 
   // ---- DETAIL PANEL ----
+  function clearKeys() {
+    keys.up = false;
+    keys.down = false;
+    keys.left = false;
+    keys.right = false;
+  }
+
   function showDetail(card) {
     paused = true;
+    clearKeys();
     detailOverline.textContent = card.data.label;
     detailTitle.textContent = card.data.title;
     detailBody.textContent = card.data.detail;
@@ -270,9 +283,7 @@
   detailClose.addEventListener('touchend', (e) => { e.preventDefault(); hideDetail(); });
 
   // ---- START ----
-  console.log('[GAME] game.js loaded. startBtn:', startBtn, 'introOverlay:', introOverlay, 'canvas:', canvas);
   startBtn.addEventListener('click', () => {
-    console.log('[GAME] Begin button clicked!');
     gameStarted = true;
     introOverlay.classList.add('hidden');
   });
@@ -397,6 +408,64 @@
     drawPlayer(time);
     ctx.restore();
     if (joystick.active) drawJoystick();
+    if (touchHintOpacity > 0 && gameStarted && !paused) drawTouchHint();
+  }
+
+  function drawTouchHint() {
+    // Fade out once player has moved
+    const isMoving = Math.hypot(player.vx, player.vy) > 10;
+    if (isMoving && !hasEverMoved) hasEverMoved = true;
+    if (hasEverMoved) {
+      touchHintOpacity -= 0.02;
+      if (touchHintOpacity <= 0) { touchHintOpacity = 0; return; }
+    }
+
+    const cx = W * 0.18;
+    const cy = H * 0.6;
+
+    ctx.globalAlpha = touchHintOpacity * 0.5;
+
+    // Outer ring
+    ctx.strokeStyle = 'rgba(255,255,255,0.25)';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.arc(cx, cy, 40, 0, Math.PI * 2);
+    ctx.stroke();
+
+    // Inner dot
+    ctx.fillStyle = 'rgba(109, 200, 242, 0.4)';
+    ctx.beginPath();
+    ctx.arc(cx, cy, 12, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Arrow hints (up/down/left/right)
+    ctx.fillStyle = 'rgba(255,255,255,0.3)';
+    const arrows = [
+      [cx, cy - 52, 0],         // up
+      [cx, cy + 52, Math.PI],   // down
+      [cx - 52, cy, -Math.PI/2],// left
+      [cx + 52, cy, Math.PI/2]  // right
+    ];
+    for (const [ax, ay, rot] of arrows) {
+      ctx.save();
+      ctx.translate(ax, ay);
+      ctx.rotate(rot);
+      ctx.beginPath();
+      ctx.moveTo(0, -6);
+      ctx.lineTo(5, 2);
+      ctx.lineTo(-5, 2);
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
+    }
+
+    // Text
+    ctx.fillStyle = 'rgba(255,255,255,0.35)';
+    ctx.font = '600 11px "Source Sans 3", sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('TOUCH & DRAG TO MOVE', cx, cy + 80);
+
+    ctx.globalAlpha = 1;
   }
 
   function drawGrid() {

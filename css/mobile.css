@@ -142,7 +142,7 @@
   .game-section { padding: 0; min-height: 100vh; }
   #controlsHint { display: none; }
   #minimap { width: 70px; height: 70px; bottom: 12px; right: 12px; }
-  #gameHud { padding: 8px 16px; }
+  #gameHud { padding: 8px 16px; bottom: 12px; left: 12px; }
   #gameHud .hud-label { font-size: 0.75rem; }
   #gameHud .hud-count { font-size: 0.95rem; }
   #detailPanel { padding: 24px 20px 22px; }
