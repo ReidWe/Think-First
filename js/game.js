@@ -159,6 +159,60 @@
     });
   }
 
+  // ---- METEORITES ----
+  const METEOR_MAX = 6;
+  const METEOR_SPAWN_INTERVAL = 2.5; // seconds between spawn attempts
+  let meteorTimer = 0;
+  const meteorites = [];
+
+  function spawnMeteorite() {
+    if (meteorites.length >= METEOR_MAX) return;
+    // Pick a random edge to spawn from (0=top, 1=right, 2=bottom, 3=left)
+    const edge = Math.floor(Math.random() * 4);
+    const margin = 60;
+    let x, y, angle;
+    switch (edge) {
+      case 0: // top
+        x = Math.random() * WORLD_W;
+        y = -margin;
+        angle = Math.PI * 0.25 + Math.random() * Math.PI * 0.5; // heading downward
+        break;
+      case 1: // right
+        x = WORLD_W + margin;
+        y = Math.random() * WORLD_H;
+        angle = Math.PI * 0.75 + Math.random() * Math.PI * 0.5; // heading left
+        break;
+      case 2: // bottom
+        x = Math.random() * WORLD_W;
+        y = WORLD_H + margin;
+        angle = -Math.PI * 0.25 + Math.random() * -Math.PI * 0.5; // heading upward
+        break;
+      default: // left
+        x = -margin;
+        y = Math.random() * WORLD_H;
+        angle = -Math.PI * 0.25 + Math.random() * Math.PI * 0.5; // heading right
+        break;
+    }
+    const speed = 120 + Math.random() * 180;
+    const size = 6 + Math.random() * 10;
+    // Build a small trail history
+    const trail = [];
+    for (let i = 0; i < 12; i++) {
+      trail.push({ x: x, y: y });
+    }
+    meteorites.push({
+      x: x, y: y,
+      vx: Math.cos(angle) * speed,
+      vy: Math.sin(angle) * speed,
+      size: size,
+      rotation: Math.random() * Math.PI * 2,
+      rotSpeed: (Math.random() - 0.5) * 4,
+      trail: trail,
+      // slight green hue variation per meteorite
+      hue: 120 + Math.floor(Math.random() * 30 - 15) // 105-135 range (green)
+    });
+  }
+
   // ---- RESIZE ----
   function resize() {
     W = container.clientWidth;
@@ -363,6 +417,31 @@
     camera.y = player.y - H / 2;
     camera.x = Math.max(0, Math.min(WORLD_W - W, camera.x));
     camera.y = Math.max(0, Math.min(WORLD_H - H, camera.y));
+
+    // ---- Update meteorites ----
+    meteorTimer += dt;
+    if (meteorTimer >= METEOR_SPAWN_INTERVAL) {
+      meteorTimer = 0;
+      spawnMeteorite();
+    }
+
+    const killMargin = 200;
+    for (let i = meteorites.length - 1; i >= 0; i--) {
+      const m = meteorites[i];
+      m.x += m.vx * dt;
+      m.y += m.vy * dt;
+      m.rotation += m.rotSpeed * dt;
+
+      // Update trail (shift old positions, push current)
+      m.trail.shift();
+      m.trail.push({ x: m.x, y: m.y });
+
+      // Remove if far off-world
+      if (m.x < -killMargin || m.x > WORLD_W + killMargin ||
+          m.y < -killMargin || m.y > WORLD_H + killMargin) {
+        meteorites.splice(i, 1);
+      }
+    }
   }
 
   function updateParticles(dt) {
@@ -386,6 +465,7 @@
     ctx.translate(-camera.x, -camera.y);
     drawGrid();
     drawStars();
+    drawMeteors();
     ctx.strokeStyle = 'rgba(109, 200, 242, 0.12)';
     ctx.lineWidth = 2;
     ctx.strokeRect(0, 0, WORLD_W, WORLD_H);
@@ -491,6 +571,68 @@
       ctx.fill();
     }
     ctx.globalAlpha = 1;
+  }
+
+  function drawMeteors() {
+    for (const m of meteorites) {
+      // Draw trail
+      const tLen = m.trail.length;
+      for (let i = 1; i < tLen; i++) {
+        const t0 = m.trail[i - 1];
+        const t1 = m.trail[i];
+        const progress = i / tLen; // 0 at tail, 1 at head
+        ctx.globalAlpha = progress * 0.45;
+        ctx.strokeStyle = 'hsl(' + m.hue + ', 60%, ' + (25 + progress * 20) + '%)';
+        ctx.lineWidth = m.size * progress * 0.6;
+        ctx.beginPath();
+        ctx.moveTo(t0.x, t0.y);
+        ctx.lineTo(t1.x, t1.y);
+        ctx.stroke();
+      }
+      ctx.globalAlpha = 1;
+
+      // Draw glow
+      const glowGrd = ctx.createRadialGradient(m.x, m.y, 0, m.x, m.y, m.size * 3);
+      glowGrd.addColorStop(0, 'hsla(' + m.hue + ', 70%, 35%, 0.25)');
+      glowGrd.addColorStop(1, 'hsla(' + m.hue + ', 70%, 35%, 0)');
+      ctx.fillStyle = glowGrd;
+      ctx.beginPath();
+      ctx.arc(m.x, m.y, m.size * 3, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Draw rocky body (irregular shape via rotated polygon)
+      ctx.save();
+      ctx.translate(m.x, m.y);
+      ctx.rotate(m.rotation);
+      const pts = 7;
+      ctx.beginPath();
+      for (let j = 0; j < pts; j++) {
+        const a = (Math.PI * 2 / pts) * j;
+        // Use a seeded wobble per vertex for a craggy look
+        const wobble = 0.7 + 0.3 * Math.sin(j * 2.7 + m.size);
+        const r = m.size * wobble;
+        if (j === 0) ctx.moveTo(Math.cos(a) * r, Math.sin(a) * r);
+        else ctx.lineTo(Math.cos(a) * r, Math.sin(a) * r);
+      }
+      ctx.closePath();
+      // Dark green fill with subtle gradient
+      const bodyGrd = ctx.createRadialGradient(-m.size * 0.3, -m.size * 0.3, 0, 0, 0, m.size);
+      bodyGrd.addColorStop(0, 'hsl(' + m.hue + ', 50%, 32%)');
+      bodyGrd.addColorStop(1, 'hsl(' + m.hue + ', 60%, 16%)');
+      ctx.fillStyle = bodyGrd;
+      ctx.fill();
+      ctx.strokeStyle = 'hsl(' + m.hue + ', 55%, 45%)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      // Highlight spot
+      ctx.fillStyle = 'hsla(' + m.hue + ', 40%, 55%, 0.35)';
+      ctx.beginPath();
+      ctx.arc(-m.size * 0.2, -m.size * 0.2, m.size * 0.3, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.restore();
+    }
   }
 
   function drawCard(card, time) {
@@ -642,6 +784,14 @@
     mmCtx.beginPath();
     mmCtx.arc(player.x * sx, player.y * sy, 3, 0, Math.PI * 2);
     mmCtx.fill();
+
+    // Meteorites on minimap
+    for (const m of meteorites) {
+      mmCtx.fillStyle = 'hsl(' + m.hue + ', 60%, 35%)';
+      mmCtx.beginPath();
+      mmCtx.arc(m.x * sx, m.y * sy, 2, 0, Math.PI * 2);
+      mmCtx.fill();
+    }
   }
 
   // ---- KICK OFF ----
