@@ -607,6 +607,7 @@
   min-height: 100vh;
   background: #060e1a;
   position: relative;
+  display: block;
 }
 
 .game-container {
