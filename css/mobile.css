@@ -18,13 +18,7 @@
   .nav-links {
     display: none;
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100%;
-    height: 100vh;
-    height: 100dvh;
+    top: 0; left: 0; right: 0; bottom: 0;
     background: rgba(6, 14, 26, 0.98);
     backdrop-filter: saturate(180%) blur(30px);
     flex-direction: column;
@@ -33,7 +27,6 @@
     gap: 0;
     z-index: 150;
     padding: 80px 40px 60px;
-    overflow-y: auto;
   }
 
   .nav-links.mobile-open { display: flex; }
@@ -144,6 +137,16 @@
   .ai-details { gap: 30px; }
   .ai-detail-value { font-size: 2.5rem; }
   .ai-note { font-size: 1rem; }
+
+  /* Argument Explorer Game */
+  #controlsHint { display: none; }
+  #minimap { width: 70px; height: 70px; bottom: 12px; right: 12px; }
+  #gameHud { padding: 8px 16px; }
+  #gameHud .hud-label { font-size: 0.75rem; }
+  #gameHud .hud-count { font-size: 0.95rem; }
+  #detailPanel { padding: 24px 20px 22px; }
+  #detailPanel .detail-title { font-size: 1.15rem; }
+  #detailPanel .detail-body { font-size: 0.88rem; }
 
   /* Badge */
   .badge-canvas-wrap { height: 650px; }

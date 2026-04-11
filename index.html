@@ -21,7 +21,7 @@
 </head>
 <body>
   <nav>
-    <div class="logo">ReidAI</div>
+    <div class="logo">PearAI</div>
     <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
@@ -30,8 +30,7 @@
       <li><a href="#vision">Vision</a></li>
       <li><a href="#research">Research</a></li>
       <li><a href="#impact">Impact</a></li>
-      <li><a href="#principles">Principles</a></li>
-      <li><a href="#solution">Solution</a></li>
+      <li><a href="#explore">Explore</a></li>
       <li><a href="#demo">Try It</a></li>
       <li><a href="#action">Take Action</a></li>
       <li><a href="#built-with-ai">Built with AI</a></li>
@@ -119,31 +118,40 @@
     </div>
   </section>
 
-  <!-- 6. PRINCIPLES -->
-  <section class="cards-section" id="principles">
-    <div class="research-subtitle">Before the solution, the philosophy</div>
-    <h2 class="feature-title">Four principles for AI literacy.</h2>
-    <div class="cards-grid">
-      <div class="card"><div class="card-icon">&#x25EF;</div><h3>Pragmatic Understanding</h3><p>Use AI effectively and interpret output critically. This means having the expertise to recognize when AI-generated work is overly complex or simply wrong, as often happens in technical fields like microcontroller programming (Zhao et al., 2024).</p></div>
-      <div class="card"><div class="card-icon">&#x25CE;</div><h3>Safety Understanding</h3><p>Use AI responsibly and ethically. Students must understand data privacy and the professional risks of uploading proprietary or sensitive information to external AI models (Zhao et al., 2024).</p></div>
-      <div class="card"><div class="card-icon">&#x25C7;</div><h3>Ethical Disclosure</h3><p>Transparency is the foundation of literacy. By documenting which program was used and how the response was incorporated into your work, you authorize your usage and ensure your integrity is never in question.</p></div>
-      <div class="card"><div class="card-icon">&#x25B3;</div><h3>Reflective Understanding</h3><p>Assess AI's impact on your learning. This is the "Forklift in the Gym" principle: if you use a forklift to bring weights to your bench, it is a useful tool. But if you use it to lift the weights for you, you have defeated the purpose of the gym (Zhao et al., 2024).</p></div>
-    </div>
-  </section>
+  <!-- 6. ARGUMENT EXPLORER (replaces Principles + Solution) -->
+  <section class="game-section" id="explore">
+    <div class="game-container">
+      <canvas id="gameCanvas"></canvas>
 
-  <!-- 7. SOLUTION -->
-  <section class="solution-section" id="solution">
-    <div class="research-subtitle">The Proposal</div>
-    <h2 class="feature-title">Think First. <span class="gradient-text">Then use AI.</span></h2>
-    <p class="feature-desc-wide">Syracuse University should implement a "Think First" pedagogical framework: an AI-Assisted Ideation Protocol that requires students to conduct their initial brainstorm without AI, then introduce it as a late-stage tool to expand, refine, and polish their own ideas.</p>
-    <div class="solution-pillars reveal">
-      <div class="pillar"><div class="pillar-number">01</div><h3>Blank Page Before Prompt</h3><p>The protocol mandates unassisted brainstorming and outlining before students introduce AI. By requiring students to confront the blank page first, the university protects original thought and ensures AI functions as a tool subordinate to the student, not vice versa (de Araujo &amp; Schneider, 2025).</p></div>
-      <div class="pillar"><div class="pillar-number">02</div><h3>Transparency, Not Surveillance</h3><p>Rather than relying on invasive detection software, the framework uses AI collaboration statements where students document their process. This shifts the focus from catching cheaters to fostering genuine academic integrity and metacognitive awareness.</p></div>
-      <div class="pillar"><div class="pillar-number">03</div><h3>Zero Cost, Existing Infrastructure</h3><p>This requires no financial investment or new software. It integrates into the existing WRT 105 and WRT 205 curriculum, and the Syracuse University Writing Center can train peer consultants to guide students through independent brainstorming exercises.</p></div>
-    </div>
-    <div class="data-cards reveal" style="margin-top: 50px;">
-      <div class="data-card"><h3>Why Not Just Ban It?</h3><p>Prohibiting the technology entirely is not a viable option (Saud&eacute; et al., 2024). Students actively resist and inevitably bypass outright bans, as the 37 integrity reports in a single CSE class demonstrate. The Think First protocol shifts when and how students engage with AI, not whether they can.</p><span class="source-tag">Saud&eacute; et al., 2024</span></div>
-      <div class="data-card"><h3>The Research Supports It</h3><p>AI should act as a complement to, rather than a replacement for, human effort (Hasan, 2025). Students who use AI must do so with mindfulness and recognize how the balance of technology and human intuition is very delicate (Fortino, 2025). The Think First framework codifies this principle into policy.</p><span class="source-tag">Hasan, 2025; Fortino, 2025</span></div>
+      <div id="gameHud">
+        <span class="hud-label">Arguments</span>
+        <span class="hud-count"><span id="hudCollected">0</span> / <span id="hudTotal">0</span></span>
+      </div>
+
+      <canvas id="minimap" width="100" height="100"></canvas>
+
+      <div id="controlsHint">WASD or Arrow Keys to move</div>
+
+      <div id="detailOverlay">
+        <div id="detailPanel">
+          <div class="detail-overline" id="detailOverline"></div>
+          <div class="detail-title" id="detailTitle"></div>
+          <div class="detail-body" id="detailBody"></div>
+          <div class="detail-source" id="detailSource"></div>
+          <button class="detail-close" id="detailClose">Continue Exploring</button>
+        </div>
+      </div>
+
+      <div id="introOverlay">
+        <h2>Explore the Framework.</h2>
+        <p>Navigate the field and collect cards to discover the four principles of AI literacy and the three pillars of the Think First framework.</p>
+        <button class="start-btn" id="startBtn">Begin</button>
+      </div>
+
+      <div id="victoryOverlay">
+        <h2>Framework Complete.</h2>
+        <p>You have collected all four principles of AI literacy and the three pillars of Think First. The philosophy and the solution, in your hands.</p>
+      </div>
     </div>
   </section>
 
@@ -237,5 +245,6 @@
   <script src="js/observers.js"></script>
   <script src="js/chat.js"></script>
   <script src="js/badge.js"></script>
+  <script src="js/game.js"></script>
 </body>
 </html>
