@@ -162,7 +162,7 @@ section {
 .overline {
   font-size: 1.2rem;
   font-weight: 500;
-  background: linear-gradient(90deg, #fb6a84, #f9cb28, #a8e063, #6dc8f2, #c084fc);
+  background: linear-gradient(90deg, #6dc8f2, #c084fc);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

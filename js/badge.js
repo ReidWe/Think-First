@@ -167,35 +167,94 @@
   }
 
   // ---- Rendering ----
+  let bSmoothTwist = 0; // tracks card twist for 3D effect
+
   function bRender() {
     bCtx2.clearRect(0, 0, bW, bH);
 
-    // Clip
+    // Clip at anchor
     bCtx2.save();
     bCtx2.fillStyle = '#aaa'; bCtx2.beginPath(); bCtx2.roundRect(badgeAnchor.x - 8, badgeAnchor.y - 10, 16, 24, 4); bCtx2.fill();
     bCtx2.fillStyle = '#888'; bCtx2.beginPath(); bCtx2.roundRect(badgeAnchor.x - 5, badgeAnchor.y - 6, 10, 16, 2); bCtx2.fill();
     bCtx2.restore();
 
-    // Lanyard
-    bCtx2.save();
-    bCtx2.strokeStyle = '#F47721'; bCtx2.lineWidth = 5; bCtx2.lineCap = 'round'; bCtx2.lineJoin = 'round';
-    bCtx2.beginPath(); bCtx2.moveTo(bPoints[0].x, bPoints[0].y);
-    for (let i = 1; i < bPoints.length - 1; i++) {
-      const xc = (bPoints[i].x + bPoints[i + 1].x) / 2, yc = (bPoints[i].y + bPoints[i + 1].y) / 2;
-      bCtx2.quadraticCurveTo(bPoints[i].x, bPoints[i].y, xc, yc);
-    }
-    const bLast = bPoints[bPoints.length - 1]; bCtx2.lineTo(bLast.x, bLast.y); bCtx2.stroke();
+    // ---- Lanyard as flat ribbon ----
+    // Draw the lanyard as a series of quads between rope segments.
+    // The ribbon width varies based on the horizontal angle between
+    // consecutive segments, simulating a flat strap that twists.
+    const LANYARD_BASE_W = 14; // full-face width of the ribbon
+    const LANYARD_MIN_W = 3;   // edge-on minimum width
 
-    bCtx2.strokeStyle = '#003366'; bCtx2.lineWidth = 2;
-    bCtx2.beginPath(); bCtx2.moveTo(bPoints[0].x, bPoints[0].y);
-    for (let i = 1; i < bPoints.length - 1; i++) {
-      const xc = (bPoints[i].x + bPoints[i + 1].x) / 2, yc = (bPoints[i].y + bPoints[i + 1].y) / 2;
-      bCtx2.quadraticCurveTo(bPoints[i].x, bPoints[i].y, xc, yc);
-    }
-    bCtx2.lineTo(bLast.x, bLast.y); bCtx2.stroke();
-    bCtx2.restore();
+    for (let i = 0; i < bPoints.length - 1; i++) {
+      const a = bPoints[i];
+      const b = bPoints[i + 1];
+      const dx = b.x - a.x;
+      const dy = b.y - a.y;
+      const segLen = Math.sqrt(dx * dx + dy * dy);
+      if (segLen === 0) continue;
 
-    // Badge card
+      // Normal perpendicular to segment direction
+      const nx = -dy / segLen;
+      const ny = dx / segLen;
+
+      // Width based on how horizontal the segment is (simulates twist)
+      const horizontalness = Math.abs(dx) / (segLen + 1);
+      const wA = LANYARD_MIN_W + (LANYARD_BASE_W - LANYARD_MIN_W) * (1 - horizontalness * 0.6);
+
+      // Also check next segment for smooth width at point b
+      let wB = wA;
+      if (i + 2 < bPoints.length) {
+        const c = bPoints[i + 2];
+        const dx2 = c.x - b.x;
+        const dy2 = c.y - b.y;
+        const segLen2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
+        const h2 = Math.abs(dx2) / (segLen2 + 1);
+        wB = LANYARD_MIN_W + (LANYARD_BASE_W - LANYARD_MIN_W) * (1 - h2 * 0.6);
+      }
+
+      const halfA = wA / 2;
+      const halfB = wB / 2;
+
+      // Quad corners
+      const ax1 = a.x + nx * halfA, ay1 = a.y + ny * halfA;
+      const ax2 = a.x - nx * halfA, ay2 = a.y - ny * halfA;
+      const bx1 = b.x + nx * halfB, by1 = b.y + ny * halfB;
+      const bx2 = b.x - nx * halfB, by2 = b.y - ny * halfB;
+
+      // Main ribbon body (orange)
+      bCtx2.beginPath();
+      bCtx2.moveTo(ax1, ay1);
+      bCtx2.lineTo(bx1, by1);
+      bCtx2.lineTo(bx2, by2);
+      bCtx2.lineTo(ax2, ay2);
+      bCtx2.closePath();
+      bCtx2.fillStyle = '#F47721';
+      bCtx2.fill();
+
+      // Dark stripe down the center for depth
+      const cxA = a.x, cyA = a.y;
+      const cxB = b.x, cyB = b.y;
+      const stripeHalfA = halfA * 0.25;
+      const stripeHalfB = halfB * 0.25;
+      bCtx2.beginPath();
+      bCtx2.moveTo(cxA + nx * stripeHalfA, cyA + ny * stripeHalfA);
+      bCtx2.lineTo(cxB + nx * stripeHalfB, cyB + ny * stripeHalfB);
+      bCtx2.lineTo(cxB - nx * stripeHalfB, cyB - ny * stripeHalfB);
+      bCtx2.lineTo(cxA - nx * stripeHalfA, cyA - ny * stripeHalfA);
+      bCtx2.closePath();
+      bCtx2.fillStyle = '#003366';
+      bCtx2.fill();
+
+      // Highlight edge for 3D feel
+      bCtx2.beginPath();
+      bCtx2.moveTo(ax1, ay1);
+      bCtx2.lineTo(bx1, by1);
+      bCtx2.strokeStyle = 'rgba(255, 180, 80, 0.5)';
+      bCtx2.lineWidth = 1;
+      bCtx2.stroke();
+    }
+
+    // ---- Badge card with 3D twist ----
     const tip = bPoints[bPoints.length - 1];
     let avgDx = 0, avgDy = 0;
     const sc = Math.min(5, bPoints.length - 1);
@@ -212,11 +271,58 @@
     while (aDiff < -Math.PI) aDiff += Math.PI * 2;
     bSmoothAngle += aDiff * 0.12;
 
+    // Compute twist: based on horizontal velocity of the badge tip
+    const tipVx = tip.x - (tip.oldX || tip.x);
+    const targetTwist = tipVx * 0.04; // more horizontal motion = more twist
+    bSmoothTwist += (targetTwist - bSmoothTwist) * 0.08;
+    // Clamp twist so card never fully disappears
+    const twist = Math.max(-0.85, Math.min(0.85, bSmoothTwist));
+    const scaleX = Math.cos(twist * Math.PI * 0.5); // 1 = face-on, ~0.15 = edge-on
+
+    // Determine if we're seeing the back
+    const showBack = Math.abs(twist) > 0.5;
+
     bCtx2.save();
     bCtx2.translate(tip.x, tip.y);
     bCtx2.rotate(bSmoothAngle);
-    bCtx2.shadowColor = 'rgba(0,0,0,0.35)'; bCtx2.shadowBlur = 20; bCtx2.shadowOffsetX = 4; bCtx2.shadowOffsetY = 8;
-    bCtx2.drawImage(texCanvas, -BBADGE_W / 2, -10, BBADGE_W, BBADGE_H);
+
+    // Apply horizontal scale for perspective twist
+    bCtx2.scale(scaleX, 1);
+
+    bCtx2.shadowColor = 'rgba(0,0,0,0.35)';
+    bCtx2.shadowBlur = 20;
+    bCtx2.shadowOffsetX = 4 * scaleX;
+    bCtx2.shadowOffsetY = 8;
+
+    if (showBack) {
+      // Draw a simple card back
+      const r = 12;
+      bCtx2.beginPath();
+      bCtx2.roundRect(-BBADGE_W / 2, -10, BBADGE_W, BBADGE_H, r);
+      bCtx2.fillStyle = '#e8e8e8';
+      bCtx2.fill();
+      // Magnetic stripe
+      bCtx2.fillStyle = '#1a1a2e';
+      bCtx2.fillRect(-BBADGE_W / 2, 40, BBADGE_W, 36);
+      // Small SU logo on back
+      bCtx2.fillStyle = '#ccc';
+      bCtx2.font = 'bold 28px "Source Sans 3", sans-serif';
+      bCtx2.textAlign = 'center';
+      bCtx2.fillText('SU', 0, BBADGE_H / 2 + 20);
+    } else {
+      // Draw front face
+      bCtx2.drawImage(texCanvas, -BBADGE_W / 2, -10, BBADGE_W, BBADGE_H);
+    }
+
+    // Edge shading when twisted (darker edge for depth)
+    if (Math.abs(twist) > 0.1) {
+      const edgeAlpha = Math.abs(twist) * 0.4;
+      bCtx2.fillStyle = 'rgba(0,0,0,' + edgeAlpha + ')';
+      bCtx2.beginPath();
+      bCtx2.roundRect(-BBADGE_W / 2, -10, BBADGE_W, BBADGE_H, 12);
+      bCtx2.fill();
+    }
+
     bCtx2.restore();
   }
 
