@@ -101,7 +101,14 @@
   let gameStarted = false;
   let paused = false;
   let collected = 0;
+  let meteorsCollected = 0;
   let gameVisible = false; // IntersectionObserver controls this
+
+  // Meteor HUD
+  const hudMeteors = document.getElementById('hudMeteors');
+
+  // Meteor burst particles (separate from card particles)
+  const meteorBursts = [];
 
   const player = { x: WORLD_W / 2, y: WORLD_H / 2, vx: 0, vy: 0 };
   const camera = { x: 0, y: 0 };
@@ -356,6 +363,33 @@
     }
   }
 
+  function spawnMeteorBurst(x, y, meteorHue, meteorSize) {
+    const count = 14 + Math.floor(meteorSize);
+    for (let i = 0; i < count; i++) {
+      const angle = (Math.PI * 2 / count) * i + Math.random() * 0.4;
+      const speed = 60 + Math.random() * 200;
+      // Mix of green chunks and bright sparks
+      const isSpark = Math.random() > 0.5;
+      meteorBursts.push({
+        x: x, y: y,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed - (isSpark ? 40 : 0),
+        life: isSpark ? 0.6 + Math.random() * 0.4 : 0.8 + Math.random() * 0.5,
+        r: isSpark ? 1.5 + Math.random() * 2 : 3 + Math.random() * (meteorSize * 0.3),
+        hue: meteorHue + Math.floor(Math.random() * 30 - 15),
+        lightness: isSpark ? 65 : 30 + Math.random() * 15,
+        isSpark: isSpark
+      });
+    }
+    // Add a brief flash ring
+    meteorBursts.push({
+      x: x, y: y, vx: 0, vy: 0,
+      life: 0.4, r: meteorSize * 2,
+      hue: meteorHue, lightness: 50,
+      isSpark: false, isRing: true
+    });
+  }
+
   // ---- GAME LOOP ----
   let lastTime = performance.now();
 
@@ -436,6 +470,21 @@
       m.trail.shift();
       m.trail.push({ x: m.x, y: m.y });
 
+      // ---- Collision with player ----
+      const distToPlayer = Math.hypot(m.x - player.x, m.y - player.y);
+      if (distToPlayer < PLAYER_R + m.size) {
+        // Burst!
+        spawnMeteorBurst(m.x, m.y, m.hue, m.size);
+        meteorsCollected++;
+        hudMeteors.textContent = meteorsCollected;
+        // Pop animation on HUD
+        hudMeteors.parentElement.classList.remove('hud-meteor-pop');
+        void hudMeteors.parentElement.offsetWidth; // force reflow
+        hudMeteors.parentElement.classList.add('hud-meteor-pop');
+        meteorites.splice(i, 1);
+        continue;
+      }
+
       // Remove if far off-world
       if (m.x < -killMargin || m.x > WORLD_W + killMargin ||
           m.y < -killMargin || m.y > WORLD_H + killMargin) {
@@ -455,6 +504,22 @@
         p.life -= dt * 1.5;
         if (p.life <= 0) card.particles.splice(i, 1);
       }
+    }
+    // Meteor burst particles
+    for (let i = meteorBursts.length - 1; i >= 0; i--) {
+      const p = meteorBursts[i];
+      if (p.isRing) {
+        p.r += dt * 180; // expand ring
+        p.life -= dt * 2.5;
+      } else {
+        p.x += p.vx * dt;
+        p.y += p.vy * dt;
+        p.vx *= Math.pow(0.04, dt);
+        p.vy *= Math.pow(0.04, dt);
+        if (!p.isSpark) p.vy += 60 * dt; // gravity on chunks
+        p.life -= dt * (p.isSpark ? 1.8 : 1.2);
+      }
+      if (p.life <= 0) meteorBursts.splice(i, 1);
     }
   }
 
@@ -486,6 +551,26 @@
       drawCard(card, time);
     }
     drawPlayer(time);
+
+    // Meteor burst particles
+    for (const p of meteorBursts) {
+      if (p.isRing) {
+        ctx.globalAlpha = p.life * 0.6;
+        ctx.strokeStyle = 'hsl(' + p.hue + ', 60%, ' + p.lightness + '%)';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.stroke();
+      } else {
+        ctx.globalAlpha = p.life * (p.isSpark ? 0.9 : 0.7);
+        ctx.fillStyle = 'hsl(' + p.hue + ', 60%, ' + p.lightness + '%)';
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r * Math.max(0.3, p.life), 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+    ctx.globalAlpha = 1;
+
     ctx.restore();
     if (joystick.active) drawJoystick();
     if (touchHintOpacity > 0 && gameStarted && !paused) drawTouchHint();

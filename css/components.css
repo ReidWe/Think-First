@@ -658,6 +658,34 @@
   background-clip: text;
 }
 
+.hud-divider {
+  width: 1px;
+  height: 18px;
+  background: rgba(255, 255, 255, 0.12);
+  margin: 0 6px;
+}
+
+.hud-meteor-count {
+  background: linear-gradient(135deg, #a8e063, #2d6a1e) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+}
+
+.hud-meteor-label {
+  color: #5a9a3a !important;
+}
+
+@keyframes meteorHudPop {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.35); }
+  100% { transform: scale(1); }
+}
+
+.hud-meteor-pop {
+  animation: meteorHudPop 0.35s ease-out;
+}
+
 #minimap {
   position: absolute;
   bottom: 16px;
