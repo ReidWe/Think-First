@@ -12,53 +12,53 @@
       label: 'PRINCIPLE 01',
       title: 'Pragmatic Understanding',
       summary: 'Use AI effectively and interpret its output critically.',
-      detail: 'Use AI effectively and interpret output critically. This means having the expertise to recognize when AI-generated work is overly complex or simply wrong, as often happens in technical fields like microcontroller programming (Zhao et al., 2024).',
+      detail: 'Technical fields require expert judgment. Students must develop the expertise to recognize when AI-generated solutions—especially in precise environments like microcontroller programming—are overly complex, inefficient, or flat-out wrong (Zhao et al., 2024).',
       source: 'Zhao et al., 2024'
     },
     {
       label: 'PRINCIPLE 02',
       title: 'Safety Understanding',
-      summary: 'Use AI responsibly with awareness of data privacy risks.',
-      detail: 'Use AI responsibly and ethically. Students must understand data privacy and the professional risks of uploading proprietary or sensitive information to external AI models',
+      summary: 'Use AI responsibly with an awareness of data privacy risks.',
+      detail: 'Convenience cannot override security. Students must be trained to understand data privacy laws and the severe professional risks associated with uploading proprietary code or sensitive information to external AI models.',
       source: 'Think First Framework'
     },
     {
       label: 'PRINCIPLE 03',
       title: 'Ethical Disclosure',
       summary: 'Transparency is the foundation of AI literacy.',
-      detail: 'Transparency is the foundation of literacy. By documenting which program was used and how the response was incorporated into your work, you authorize your usage and ensure your integrity is never in question.',
+      detail: 'By actively documenting which programs were used and exactly how their outputs were incorporated into a project, students authorize their own usage and ensure their academic integrity is never in question.',
       source: 'Think First Framework'
     },
     {
       label: 'PRINCIPLE 04',
       title: 'Reflective Understanding',
       summary: 'The Forklift in the Gym: assess AI\'s impact on your learning.',
-      detail: 'Assess AI\'s impact on your learning. This is the "Forklift in the Gym" principle: if you use a forklift to bring weights to your bench, it is a useful tool. But if you use it to lift the weights for you, you have defeated the purpose of the gym',
+      detail: 'If you use a forklift to bring weights to your bench, it is a useful tool. If you use it to lift the weights for you, you have defeated the purpose of the gym. Students must critically assess whether AI is assisting their cognitive growth or replacing it.',
       source: 'Think First Framework'
     },
     {
       label: 'THINK FIRST 01',
       title: 'Blank Page Before Prompt',
       summary: 'Mandate unassisted brainstorming before students open AI.',
-      detail: 'The protocol mandates unassisted brainstorming and outlining before students introduce AI. By requiring students to confront the blank page first, the university protects original thought and ensures AI functions as a tool subordinate to the student, not vice versa (de Araujo & Schneider, 2025).',
-      source: 'de Araujo & Schneider, 2025'
+      detail: 'The protocol requires unassisted brainstorming and outlining before AI is introduced. By forcing students to confront the blank page first, the university protects original thought and ensures AI remains a subordinate tool (Araujo & Schneider, 2025).',
+      source: 'Araujo & Schneider, 2025'
     },
     {
       label: 'THINK FIRST 02',
       title: 'Transparency, Not Surveillance',
       summary: 'Collaboration statements replace unreliable detection software.',
-      detail: 'Rather than relying on invasive detection software, the framework uses AI collaboration statements where students document their process. This shifts the focus from catching cheaters to fostering genuine academic integrity and metacognitive awareness.',
+      detail: 'Rather than relying on invasive and inaccurate AI detection software, the framework uses collaboration statements where students document their process. This shifts the classroom focus from catching cheaters to fostering genuine metacognitive awareness.',
       source: 'Think First Framework'
     },
     {
       label: 'THINK FIRST 03',
       title: 'Zero Cost, Existing Infrastructure',
       summary: 'No new software or budget required to implement.',
-      detail: 'This requires no financial investment or new software. It integrates into the existing WRT 105 and WRT 205 curriculum, and the Syracuse University Writing Center can train peer consultants to guide students through independent brainstorming exercises.',
+      detail: 'This framework requires zero financial investment. It can be integrated directly into existing curricula—like the WRT 105 and WRT 205 sequences—while Writing Center peer consultants are trained to guide students through independent brainstorming exercises.',
       source: 'Think First Framework'
     }
   ];
-
+   
   // ---- CONSTANTS ----
   const WORLD_W = 1800;
   const WORLD_H = 1400;
