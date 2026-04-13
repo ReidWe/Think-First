@@ -19,8 +19,8 @@
       label: 'PRINCIPLE 02',
       title: 'Safety Understanding',
       summary: 'Use AI responsibly with awareness of data privacy risks.',
-      detail: 'Use AI responsibly and ethically. Students must understand data privacy and the professional risks of uploading proprietary or sensitive information to external AI models (Zhao et al., 2024).',
-      source: 'Zhao et al., 2024'
+      detail: 'Use AI responsibly and ethically. Students must understand data privacy and the professional risks of uploading proprietary or sensitive information to external AI models',
+      source: 'Think First Framework'
     },
     {
       label: 'PRINCIPLE 03',
@@ -33,8 +33,8 @@
       label: 'PRINCIPLE 04',
       title: 'Reflective Understanding',
       summary: 'The Forklift in the Gym: assess AI\'s impact on your learning.',
-      detail: 'Assess AI\'s impact on your learning. This is the "Forklift in the Gym" principle: if you use a forklift to bring weights to your bench, it is a useful tool. But if you use it to lift the weights for you, you have defeated the purpose of the gym (Zhao et al., 2024).',
-      source: 'Zhao et al., 2024'
+      detail: 'Assess AI\'s impact on your learning. This is the "Forklift in the Gym" principle: if you use a forklift to bring weights to your bench, it is a useful tool. But if you use it to lift the weights for you, you have defeated the purpose of the gym',
+      source: 'Think First Framework'
     },
     {
       label: 'THINK FIRST 01',
