@@ -593,7 +593,11 @@
   letter-spacing: -0.03em;
 }
 
-.ai-cta { max-width: 600px; padding: 0 20px; }
+.ai-cta {
+    max-width: 600px;
+    padding: 0 20px;
+    margin: 0 auto;
+}
 
 .ai-note {
   font-size: 1.2rem;
